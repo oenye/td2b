@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Билды The Division 2</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8ebee;--panel:#f6f7f8;--ink:#18212b;--mute:#566371;--line:#c3cad1;--acc:#d9500a;--accink:#fff;--ok:#1e7a46;--warn:#92650a;--bad:#a8322d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11161c;--panel:#1a2129;--ink:#e6eaee;--mute:#93a0ad;--line:#2d3743;--acc:#ff7a2e;--accink:#1a0e05;--ok:#4cc27f;--warn:#e0b341;--bad:#ef7b74}}
+:root[data-theme="dark"]{--bg:#11161c;--panel:#1a2129;--ink:#e6eaee;--mute:#93a0ad;--line:#2d3743;--acc:#ff7a2e;--accink:#1a0e05;--ok:#4cc27f;--warn:#e0b341;--bad:#ef7b74}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"IBM Plex Sans Condensed","Arial Narrow",sans-serif;margin:0;font-weight:700}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 40px}
+header{display:flex;flex-wrap:wrap;gap:16px;align-items:end;justify-content:space-between;border-bottom:3px solid var(--acc);padding-bottom:14px;margin-bottom:20px}
+h1{font-size:34px;line-height:1.1}
+.ver{display:flex;gap:8px;align-items:center;color:var(--mute)}
+.ver input{width:130px}
+main{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
+@media(max-width:820px){main{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);padding:16px}
+.panel h2{font-size:20px;margin-bottom:12px}
+label{display:block;font-size:13px;color:var(--mute);margin:10px 0 3px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:7px 9px;border-radius:2px}
+textarea{resize:vertical;min-height:60px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:500 14px "IBM Plex Sans",sans-serif;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);padding:7px 12px;border-radius:2px}
+button:hover{border-color:var(--ink)}
+button.pri{background:var(--acc);border-color:var(--acc);color:var(--accink)}
+.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.tools{display:grid;grid-template-columns:1fr 150px 150px;gap:10px;margin-bottom:14px}
+@media(max-width:560px){.tools{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--line);padding:14px 16px;margin-bottom:12px}
+.card.s-ok{border-left-color:var(--ok)}.card.s-test{border-left-color:var(--warn)}.card.s-old{border-left-color:var(--bad);opacity:.8}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:start;flex-wrap:wrap}
+.card h3{font-size:21px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.tag{font-size:12px;border:1px solid var(--line);padding:1px 7px;color:var(--mute)}
+.st{font-weight:500;font-size:13px;padding:2px 9px;border:1px solid currentColor}
+.st.ok{color:var(--ok)}.st.test{color:var(--warn)}.st.old{color:var(--bad)}
+dl{margin:10px 0 0;display:grid;grid-template-columns:110px 1fr;gap:4px 12px}
+dt{color:var(--mute)}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);align-items:center}
+.foot small{color:var(--mute)}.flag{color:var(--warn)}
+.foot div{display:flex;gap:6px}
+.empty{padding:30px 16px;text-align:center;color:var(--mute);border:1px dashed var(--line)}
+#io{display:none;margin-top:14px}#io textarea{min-height:140px;font-family:ui-monospace,monospace;font-size:12px}
+@media(prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
+.sets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sb{display:flex;align-items:center;gap:6px;padding:3px 8px 3px 4px;font-size:13px}
+.sb svg,.em svg{width:22px;height:22px;display:block}
+.em{display:inline-flex;gap:5px;align-items:center;margin:10px 12px 0 0;font-size:13px;color:var(--mute)}
+.pics{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.pics .p{position:relative}
+.pics img{width:96px;height:64px;object-fit:cover;border:1px solid var(--line);display:block;cursor:zoom-in}
+.pics .x{position:absolute;top:2px;right:2px;padding:0 6px;background:var(--panel)}
+svg.w{width:66px;height:22px;fill:currentColor}svg.w .m{fill-opacity:.55}svg.w .d{fill:none;stroke:var(--panel);stroke-width:1}svg.w .s{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+svg.a{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}svg.a .f{fill:currentColor;fill-opacity:.16}
+.em.g{color:var(--ink)}.em.g small{color:var(--mute);font-size:13px}
+.sb svg.w{width:51px;height:17px}.sb svg.a{width:24px;height:24px}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+#zoom img{max-width:100%;max-height:100%}
+main{display:block}
+.hd{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;flex:none}
+.hr{display:flex;gap:16px;align-items:end;flex-wrap:wrap}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{display:flex;gap:8px;align-items:center}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabs b{font-weight:500;opacity:.7}
+.tools{grid-template-columns:1fr 170px;margin:0}
+@media(max-width:560px){.tools{grid-template-columns:1fr}}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px;padding-top:14px}
+#list .card{margin:0;display:flex;flex-direction:column}
+#list .card .foot{margin-top:auto}
+.card:hover{border-top-color:var(--mute);border-right-color:var(--mute);border-bottom-color:var(--mute)}
+details{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+summary{cursor:pointer;color:var(--mute);font-size:13px}
+details dl{margin-top:8px}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);z-index:20;overflow:auto;border-width:0 0 0 1px;transform:translateX(100%);visibility:hidden;transition:transform .2s,visibility .2s;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+#drawer.open{transform:none;visibility:visible}
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:19;display:none}#scrim.open{display:block}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.dh button{padding:2px 11px;font-size:20px;line-height:1.2}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;z-index:30;opacity:0;pointer-events:none;transition:opacity .2s}#toast.on{opacity:1}
+@media(prefers-reduced-motion:reduce){#drawer,#toast{transition:none}}
+.armor{display:grid;gap:5px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.ar{display:grid;grid-template-columns:24px 92px 1fr;gap:8px;align-items:center;font-size:13.5px;line-height:1.35}
+.ar svg.a{width:24px;height:24px}.al{color:var(--mute)}
+.al2{display:flex;align-items:center;gap:6px}.al2 svg.a{width:20px;height:20px}
+.core{width:20px;height:20px;flex:none}
+.cv{display:flex;gap:7px;align-items:center}
+.cs{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;align-items:center;margin-bottom:4px}
+.cs b{font-weight:500;color:var(--mute)}.cs span{display:inline-flex;gap:6px;align-items:center}
+.cr{display:grid;grid-template-columns:1fr 112px;gap:8px}
+.ro #newb,.ro .card .foot div{display:none}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:40;padding:16px}
+.modal.on{display:flex}.modal .panel{max-width:480px;width:100%}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="hd"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" fill="var(--acc)"/><path d="M12 25l8-12 8 12M15.500 25h9" stroke="var(--accink)" stroke-width="2.500" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><h1>Билды The Division 2</h1><div id="count" style="color:var(--mute)"></div><div id="sync" style="color:var(--mute);font-size:13px"></div></div></div>
+  <div class="hr"><div class="ver"><label for="curver" style="margin:0">Текущее обновление</label><input id="curver" placeholder="например, Y8S3"></div><button id="upb" type="button" hidden>Обновления</button><button id="ups" type="button" hidden aria-label="Настройки обновлений">⚙</button><button id="fsb" type="button" hidden>Папка синхронизации</button><button class="pri" id="newb" type="button">+ Новый билд</button></div>
+</header>
+<main>
+  <div id="scrim"></div>
+  <section class="panel" id="drawer" aria-labelledby="ft">
+    <div class="dh"><h2 id="ft" style="margin:0">Новый билд</h2><button type="button" id="cl" aria-label="Закрыть">×</button></div>
+    <label for="f-name">Название</label><input id="f-name">
+    <div class="row">
+      <div><label for="f-role">Роль</label><select id="f-role"><option>Урон</option><option>Танк</option><option>Лечение</option><option>Навыки</option><option>Гибрид</option></select></div>
+      <div><label for="f-mode">Режим</label><select id="f-mode"><option>PvE</option><option>PvP</option><option>Рейд</option><option>Любой</option></select></div>
+    </div>
+    <label for="f-sets">Бренды и сеты</label><input id="f-sets">
+    <div class="sets" id="setbtns" aria-label="Быстро добавить сет"></div>
+    <label for="f-weap">Оружие</label><textarea id="f-weap"></textarea>
+    <div class="sets" id="wbtns" aria-label="Добавить тип оружия"></div>
+    <div id="armorf"></div>
+    <label for="f-tal">Специализация, моды, навыки</label><textarea id="f-tal"></textarea>
+    <label for="f-note">Заметки</label><textarea id="f-note"></textarea>
+    <label for="f-pics">Скриншоты экипировки</label><input id="f-pics" type="file" accept="image/*" multiple>
+    <div class="pics" id="fp"></div><div id="msg" role="status" style="color:var(--bad);font-size:13px;margin-top:6px"></div>
+    <div class="row">
+      <div><label for="f-ver">Проверен для</label><input id="f-ver" placeholder="Y8S3"></div>
+      <div><label for="f-status">Статус</label><select id="f-status"><option value="ok">Актуален</option><option value="test">Тестирую</option><option value="old">Устарел</option></select></div>
+    </div>
+    <div class="actions"><button class="pri" id="save">Сохранить билд</button><button id="reset">Очистить</button></div>
+    <div class="actions"><button id="exp">Экспорт</button><button id="imp">Импорт</button></div>
+    <div id="io"><textarea id="iotext" aria-label="JSON с билдами"></textarea><div class="actions"><button class="pri" id="ioapply">Загрузить из текста</button></div></div>
+  </section>
+  <section aria-label="Список билдов">
+    <div class="bar">
+      <div class="tabs" id="tabs"><button type="button" data-s="">Все <b>0</b></button><button type="button" data-s="ok">Актуальные <b>0</b></button><button type="button" data-s="test">Тестирую <b>0</b></button><button type="button" data-s="old">Устаревшие <b>0</b></button></div>
+      <select id="fs" hidden><option value=""></option><option value="ok"></option><option value="test"></option><option value="old"></option></select>
+      <div class="tools"><input id="q" placeholder="Поиск по названию, оружию, сетам" aria-label="Поиск">
+      <select id="fr" aria-label="Роль"><option value="">Все роли</option><option>Урон</option><option>Танк</option><option>Лечение</option><option>Навыки</option><option>Гибрид</option></select></div>
+    </div>
+    <div id="list"></div>
+  </section>
+</main>
+</div>
+<div class="modal" id="updm"><div class="panel" role="dialog" aria-labelledby="ut"><h2 id="ut">Обновления</h2><div id="uv" style="color:var(--mute)"></div>
+<label for="uurl">Адрес обновлений (https)</label><input id="uurl" placeholder="https://raw.githubusercontent.com/пользователь/репозиторий/main/">
+<div class="actions"><button class="pri" id="usave" type="button">Сохранить и проверить</button><button class="pri" id="uapp" type="button" hidden>Обновить</button><button id="ucl" type="button">Закрыть</button></div>
+<div id="ust" role="status" style="margin-top:10px"></div></div></div>
+<div id="toast" role="status"></div>
+<div id="zoom"><img alt=""></div>
+<script>
+const K='d2builds.v1';
+let DB=null,FS=window.d2sync||null,fsOn=false,sst;
+let S={ver:'',builds:[]};
+try{const r=localStorage.getItem(K);if(r)S=JSON.parse(r)}catch(e){}
+if(!S||!Array.isArray(S.builds))S={ver:'',builds:[]};
+const $=id=>document.getElementById(id);
+const save=()=>{if(DB)return true;let ok=true;try{localStorage.setItem(K,JSON.stringify(S))}catch(e){ok=false}syncSoon();return ok};
+const maxP=()=>DB?3:6;
+const dbErr=e=>toast(e&&e.code==='invalid_argument'?'Нет прав на изменение или билд слишком большой (уберите часть фото)':e&&e.code==='quota_exceeded'?'Общее хранилище заполнено':'Не удалось сохранить в общую базу');
+const dbPut=b=>{if(DB)DB.doc('builds/'+b.id).set(JSON.parse(JSON.stringify(b))).catch(dbErr)};
+const dbDel=id=>{if(DB)DB.doc('builds/'+id).delete().catch(dbErr)};
+const today=()=>new Date().toISOString().slice(0,10);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ST={ok:'Актуален',test:'Тестирую',old:'Устарел'};
+const F=['name','role','mode','sets','weap','mask','maskc','chest','chestc','pack','packc','gloves','glovesc','holster','holsterc','knees','kneesc','tal','note','ver','status'];
+let editId=null;
+
+function clearForm(){
+  F.forEach(k=>{const e=$('f-'+k);e.value=e.tagName==='SELECT'?e.options[0].value:''});
+  $('f-ver').value=S.ver;editId=null;pics=[];renderFP();$('msg').textContent='';$('ft').textContent='Новый билд';$('save').textContent='Сохранить билд';
+}
+function render(){
+  const q=$('q').value.trim().toLowerCase(),fs=$('fs').value,fr=$('fr').value;
+  const cnt={'':S.builds.length,ok:0,test:0,old:0};S.builds.forEach(b=>{if(b.status in cnt)cnt[b.status]++});
+  document.querySelectorAll('#tabs button').forEach(t=>{t.querySelector('b').textContent=cnt[t.dataset.s];t.setAttribute('aria-pressed',String(t.dataset.s===fs))});
+  const rank={ok:0,test:1,old:2};
+  const items=S.builds.filter(b=>(!fs||b.status===fs)&&(!fr||b.role===fr)&&(!q||[b.name,b.sets,b.weap,b.tal,b.note].join(' ').toLowerCase().includes(q)))
+    .sort((a,b)=>rank[a.status]-rank[b.status]||String(b.checked).localeCompare(String(a.checked)));
+  $('count').textContent='Всего билдов: '+S.builds.length+', актуальных: '+S.builds.filter(b=>b.status==='ok').length;
+  if(!items.length){$('list').innerHTML='<div class="empty">'+(S.builds.length?'Ничего не найдено. Сбросьте фильтры.':'Билдов пока нет. Нажмите «Новый билд», чтобы добавить первый.')+'</div>';return}
+  $('list').innerHTML=items.map(b=>{
+    const stale=S.ver&&b.ver!==S.ver&&b.status!=='old';
+    const row=(t,v)=>v?'<dt>'+t+'</dt><dd>'+esc(v)+'</dd>':'';
+    return '<article class="card s-'+b.status+'"><div class="top"><div><h3>'+esc(b.name||'Без названия')+'</h3><div class="tags"><span class="tag">'+esc(b.role)+'</span><span class="tag">'+esc(b.mode)+'</span></div></div><span class="st '+b.status+'">'+ST[b.status]+'</span></div>'+
+    emRow(b)+gearRow(b)+'<details><summary>Состав и заметки</summary><dl>'+row('Бренды и сеты',b.sets)+row('Оружие',b.weap)+row('Специализация, моды, навыки',b.tal)+row('Заметки',b.note)+'</dl></details>'+picRow(b)+
+    '<div class="foot"><small>Проверен для '+esc(b.ver||'—')+', '+esc(b.checked)+(stale?' <span class="flag">Вышло новое обновление, перепроверьте билд</span>':'')+'</small>'+
+    '<div><button data-a="chk" data-id="'+b.id+'">Подтвердить</button><button data-a="edit" data-id="'+b.id+'">Изменить</button><button data-a="del" data-id="'+b.id+'">Удалить</button></div></div></article>';
+  }).join('');
+}
+$('save').onclick=()=>{
+  const o={};F.forEach(k=>o[k]=$('f-'+k).value.trim());o.pics=pics.slice();o.u=Date.now();
+  if(!o.name){$('f-name').focus();return}
+  let nb;
+  if(editId){const b=S.builds.find(x=>x.id===editId);Object.assign(b,o,{checked:today()});nb=b}
+  else{nb=Object.assign({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),checked:today()},o);S.builds.push(nb)}
+  if(!save()){$('msg').textContent='Не хватило места в браузере. Удалите часть фото и сохраните снова.';return}
+  dbPut(nb);
+  toast(editId?'Билд обновлён':'Билд сохранён');closeD();clearForm();render();
+};
+$('reset').onclick=clearForm;
+$('list').onclick=e=>{
+  if(e.target.dataset.z){$('zoom').firstElementChild.src=e.target.src;$('zoom').style.display='flex';return}
+  const t=e.target.closest('button');if(!t)return;
+  const b=S.builds.find(x=>x.id===t.dataset.id);if(!b)return;
+  if(t.dataset.a==='chk'){b.ver=S.ver||b.ver;b.checked=today();if(b.status==='old')b.status='ok';b.u=Date.now();save();dbPut(b);render();toast('Актуальность подтверждена')}
+  if(t.dataset.a==='del'){if(t.dataset.sure){S.builds=S.builds.filter(x=>x!==b);(S.tomb=S.tomb||[]).push({id:b.id,u:Date.now()});save();dbDel(b.id);render()}else{t.textContent='Точно удалить?';t.dataset.sure='1'}}
+  if(t.dataset.a==='edit'){F.forEach(k=>$('f-'+k).value=b[k]||'');editId=b.id;pics=(b.pics||[]).slice();renderFP();$('ft').textContent='Изменение билда';$('save').textContent='Сохранить изменения';openD()}
+};
+$('curver').value=S.ver;
+$('curver').oninput=e=>{S.ver=e.target.value.trim();S.vu=Date.now();save();render();clearTimeout(window._vt);window._vt=setTimeout(()=>{if(DB)DB.doc('meta/config').set({ver:S.ver}).catch(dbErr)},600)};
+['q','fs','fr'].forEach(id=>$(id).addEventListener('input',render));
+$('exp').onclick=()=>{$('io').style.display='block';$('iotext').value=JSON.stringify(S,null,1);$('iotext').select()};
+$('imp').onclick=()=>{$('io').style.display='block';$('iotext').value='';$('iotext').placeholder='Вставьте сюда JSON из экспорта';$('iotext').focus()};
+$('ioapply').onclick=()=>{
+  try{const d=JSON.parse($('iotext').value);if(!d||!Array.isArray(d.builds))throw 0;if(FS&&fsOn){const t=Date.now(),m=new Map(S.builds.map(b=>[b.id,b]));d.builds.forEach(b=>{if(b&&b.id){b.u=t;m.set(b.id,b)}});S.builds=[...m.values()];if(d.ver){S.ver=d.ver;S.vu=t}}else S={ver:d.ver||'',builds:d.builds};save();if(DB){S.builds.forEach(b=>dbPut(b));if(S.ver)DB.doc('meta/config').set({ver:S.ver}).catch(dbErr)}$('curver').value=S.ver;$('io').style.display='none';clearForm();render()}
+  catch(e){$('iotext').value='';$('iotext').placeholder='Не удалось прочитать JSON. Вставьте текст, полученный через «Экспорт».'}
+};
+
+let pics=[];
+const SETS=[["Striker","Урон: винтовки и SMG",20],["Heartbreaker","Урон: AR и LMG",350],["Negotiator’s Dilemma","Легенды, несколько целей",270],["Hunter’s Fury","SMG, ближний бой",140],["Foundry Bulwark","Танк",210],["Future Initiative","Лекарь",170],["Eclipse Protocol","Статус-эффекты",290],["Ember Engine","Огонь и горение, Red Horizon",25],["Tipping Scales","LMG, криты",50],["Refactor","Навыки",190],["Hotshot","Снайпер",0],["System Corruption","PvP, синие ядра",300]];
+const norm=s=>String(s||'').toLowerCase().replace(/[’']/g,'');
+const emb=(n,h)=>'<svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" fill="hsl('+h+' 55% 38%)"/><polygon points="20,8 31,14 31,26 20,32 9,26 9,14" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/><text x="20" y="25" text-anchor="middle" font-size="15" font-weight="700" fill="#fff" font-family="sans-serif">'+esc(n[0])+'</text></svg>';
+const emRow=b=>SETS.filter(s=>norm(b.sets).includes(norm(s[0]))).map(s=>'<span class="em" title="'+esc(s[1])+'">'+emb(s[0],s[2])+esc(s[0])+'</span>').join('');
+const picRow=b=>b.pics&&b.pics.length?'<div class="pics">'+b.pics.map(p=>'<img src="'+p+'" data-z="1" alt="Скриншот билда">').join('')+'</div>':'';
+function renderFP(){
+  $('fp').innerHTML=pics.map((p,i)=>'<div class="p"><img src="'+p+'" alt="Фото '+(i+1)+'" data-z="1"><button class="x" type="button" data-i="'+i+'" aria-label="Убрать фото">×</button></div>').join('');
+}
+$('fp').onclick=e=>{
+  if(e.target.dataset.z){$('zoom').firstElementChild.src=e.target.src;$('zoom').style.display='flex';return}
+  const i=e.target.dataset.i;if(i!==undefined){pics.splice(+i,1);renderFP()}
+};
+$('zoom').onclick=()=>{$('zoom').style.display='none'};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('zoom').style.display='none';closeD()}});
+const shrink=f=>new Promise((res,rej)=>{
+  const r=new FileReader();
+  r.onerror=rej;
+  r.onload=()=>{const i=new Image();i.onerror=rej;i.onload=()=>{
+    const k=Math.min(1,520/Math.max(i.width,i.height)),c=document.createElement('canvas');
+    c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);
+    c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.62))};i.src=r.result};
+  r.readAsDataURL(f);
+});
+$('f-pics').onchange=async e=>{
+  $('msg').textContent='';
+  for(const f of e.target.files){
+    if(pics.length>=maxP()){$('msg').textContent='Не больше '+maxP()+' фото на билд.';break}
+    try{pics.push(await shrink(f))}catch(x){$('msg').textContent='Не удалось прочитать файл '+f.name+'.'}
+  }
+  e.target.value='';renderFP();
+};
+$('setbtns').innerHTML=SETS.map(s=>'<button type="button" class="sb" data-set="'+esc(s[0])+'" title="'+esc(s[1])+'">'+emb(s[0],s[2])+esc(s[0])+'</button>').join('');
+$('setbtns').onclick=e=>{
+  const b=e.target.closest('button');if(!b)return;
+  const f=$('f-sets'),n=b.dataset.set;
+  if(norm(f.value).includes(norm(n)))return;
+  f.value=f.value.trim()?f.value.trim().replace(/,$/,'')+', '+n:n;
+};
+
+const WI={
+ar:'<path d="M2 11h12v9l-9 2q-3 0-3-3z"/><path class="m" d="M14 12h8v4h-8z"/><path d="M22 10h30v9H22z"/><path d="M22 8h30v2H22z"/><path class="m" d="M52 10h20v8H52z"/><path d="M72 12h14v3H72z"/><path d="M86 11h6v5h-6z"/><path d="M70 6h2v4h-2z"/><path d="M36 19h8l1.5 11h-8z"/><path d="M26 19h6l-2 9h-5z"/><rect class="m" x="30" y="4" width="14" height="4" rx="1"/><path d="M33 8h8v2h-8z"/><path class="d" d="M26 13h8M56 11v6M60 11v6M64 11v6M68 11v6M89 12v3"/><path class="s" d="M33 19v3q0 2-2 2h-3"/>',
+lmg:'<path d="M2 11h12v9l-9 2q-3 0-3-3z"/><path class="m" d="M14 12h8v4h-8z"/><path d="M22 10h32v9H22z"/><path class="m" d="M26 6h26v4H26z"/><path class="m" d="M54 10h14v8H54z"/><path d="M68 11h18v4H68z"/><path d="M86 10h7v6h-7z"/><path class="m" d="M34 19h15v10H34z"/><path d="M24 19h6l-2 9h-5z"/><path class="d" d="M38 20v8M42 20v8M46 20v8M58 11v6M62 11v6M90 11v4"/><path class="s" d="M56 7q6-5 12 0M66 18l-5 11M70 18l5 11"/>',
+smg:'<path class="m" d="M2 10h14v2H2zM2 16h14v2H2z"/><path d="M2 10h2v8H2z"/><path d="M16 10h28v9H16z"/><path class="m" d="M44 11h16v6H44z"/><path d="M60 12.5h14v3H60z"/><path d="M74 11.5h4v5h-4z"/><path d="M30 19h5v13h-5z"/><path d="M19 19h6l-2 9h-5z"/><path class="m" d="M48 17h4v8h-4z"/><rect class="m" x="22" y="5" width="12" height="4" rx="1"/><path d="M26 9h4v1h-4z"/><path class="d" d="M47 11v6M51 11v6M55 11v6M20 13h10"/>',
+shotgun:'<path d="M2 10h14l-1 10H5q-3 0-3-3z"/><path d="M16 10h22v9H16z"/><path class="m" d="M38 15h40v3H38z"/><path d="M38 11h48v3H38z"/><path class="m" d="M52 14h14v7H52z"/><path d="M86 10.5h6v4h-6z"/><path d="M22 19h5l-1 7h-4z"/><path d="M82 8h2v3h-2z"/><path class="d" d="M55 15v5M58 15v5M61 15v5M20 13h12"/><path class="s" d="M31 19v2q0 2-2 2h-2"/>',
+sniper:'<path d="M2 12h18v4l-6 4H4q-2 0-2-2z"/><path class="m" d="M5 9h10v3H5z"/><path d="M20 11h20v7H20z"/><path d="M40 13h44v3H40z"/><path d="M84 11.5h9v6h-9z"/><rect x="26" y="3" width="30" height="5" rx="2"/><path class="m" d="M56 2.5h5v6h-5zM22 3h4v2h-4zM30 8h3v3h-3zM46 8h3v3h-3zM28 18h7v6h-7z"/><path class="d" d="M86 11.5v6M89 11.5v6M30 14h8"/><path class="s" d="M62 16l-5 13M66 16l5 13M32 18l-4 5"/>',
+pistol:'<path d="M20 6h42v8H20z"/><path class="m" d="M20 14h38v4H20z"/><path d="M22 16h12l-5 14H17z"/><path d="M22 4h4v2h-4zM58 4h3v2h-3z"/><path class="m" d="M16 28h13v3H16z"/><path class="d" d="M24 7v6M27 7v6M30 7v6M34 7v6M38 7v6"/><path class="s" d="M38 18v4q0 2 3 2h4"/>'};
+const WT=[["ar","Штурмовая винтовка (AR)",/штурмов|assault|\bAR\b/i],["lmg","Пулемёт (LMG)",/\bLMG\b|пулем[её]т(?!.*пистолет)/i],["smg","Пистолет-пулемёт (SMG)",/\bSMG\b|пистолет-пулем/i],["shotgun","Дробовик",/shotgun|дробов/i],["sniper","Снайперская винтовка",/sniper|снайпер|марксман|marksman/i],["pistol","Пистолет",/pistol|пистолет(?!-)/i]];
+const AI={
+mask:'<path class="f" d="M16 3c-6 0-10 4-10 10v6c0 4 3 7 6 9h8c3-2 6-5 6-9v-6c0-6-4-10-10-10z"/><path d="M8 12h16v5q0 2-2 2h-3l-1-2h-4l-1 2h-3q-2 0-2-2z"/><path d="M16 12v5M6 14H3M26 14h3M13 25h6M14 27.5h4"/>',
+chest:'<path class="f" d="M9 3 4 8v7l4 2v13h16V17l4-2V8l-5-5h-3c-1 2-2.500 3-5 3s-4-1-5-3z"/><path d="M11 11h10v9H11zM11 23h4v4h-4zM17 23h4v4h-4zM13 8h6"/>',
+pack:'<path class="f" d="M8 8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v20H8z"/><path d="M8 11h16M11 17h10v8H11zM11 21h10M13 4V2.500h6V4M8 14H5v9h3M24 14h3v9h-3"/>',
+gloves:'<path class="f" d="M10 29v-8l-4-5 2-1.500 3 3V6h2.500v9h1V4h2.500v11h1V5.500h2.500V16h1V8h2.500v12l-3 4v5z"/><path d="M10 26h14M11 14h12"/>',
+holster:'<path class="f" d="M10 3h12v7l-1 2v12l-3 5h-4l-3-5V12l-1-2z"/><path d="M8 5h16M11 10h10M10 21h12M12 3V1.500h8V3"/><circle cx="16" cy="16" r="1"/>',
+knees:'<path class="f" d="M16 3c5 0 8 2 8 5v9c0 5-3 9-8 12-5-3-8-7-8-12V8c0-3 3-5 8-5z"/><path d="M12 10h8v9l-4 4-4-4zM8 11H4M24 11h4M8 19H4M24 19h4"/>'};
+const AT=[["mask","Маска",/маск|mask/i],["chest","Нагрудник",/нагрудник|chest|бронежилет/i],["pack","Рюкзак",/рюкзак|backpack/i],["gloves","Перчатки",/перчатк|gloves/i],["holster","Кобура",/кобур|holster/i],["knees","Наколенники",/наколенник|knee/i]];
+const wsvg=k=>'<svg class="w" viewBox="0 0 96 32" aria-hidden="true">'+WI[k]+'</svg>';
+const asvg=k=>'<svg class="a" viewBox="0 0 32 32" aria-hidden="true">'+AI[k]+'</svg>';
+const AS=[["mask","Маска"],["chest","Бронежилет"],["pack","Рюкзак"],["gloves","Перчатки"],["holster","Кобура"],["knees","Наколенники"]];
+const CORES={r:["Красное","Урон оружием","#d6402f"],b:["Синее","Броня","#2e7ad1"],y:["Жёлтое","Уровни навыков","#e2b01e"]};
+const CM=[[/красн\S*\s+ядр\S*/i,"r"],[/син\S*\s+ядр\S*/i,"b"],[/(?:жёлт|желт)\S*\s+ядр\S*/i,"y"]];
+const coreOf=(b,k)=>{
+  const t=b[k]||"",c=b[k+"c"];
+  if(c)return{c,t};
+  for(const [re,x] of CM)if(re.test(t))return{c:x,t:t.replace(re,"").replace(/,\s*,/g,",").replace(/\s{2,}/g," ").replace(/^[\s,]+|[\s,]+$/g,"")};
+  return{c:"",t};
+};
+const CG={r:'<circle cx="12" cy="12" r="3.6" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M12 4.500v3M12 16.500v3M4.500 12h3M16.500 12h3" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>',b:'<path d="M12 6.500l4.800 1.800v3.700c0 3-1.900 4.900-4.800 6-2.900-1.100-4.800-3-4.800-6V8.300z" fill="#fff"/>',y:'<path d="M13.200 5.500L7.800 12.800h3.600l-1 5.700 5.800-7.600h-3.700z" fill="#3a2a00"/>'};
+const coreSvg=c=>{const n=CORES[c][0]+" ядро: "+CORES[c][1].toLowerCase();return '<svg class="core" viewBox="0 0 24 24" role="img" aria-label="'+n+'"><title>'+n+'</title><circle cx="12" cy="12" r="11" fill="'+CORES[c][2]+'"/><circle cx="12" cy="12" r="10.500" fill="none" stroke="#000" stroke-opacity=".28"/>'+CG[c]+'</svg>'};
+const armRow=b=>{
+  const cnt={r:0,b:0,y:0};
+  const r=AS.filter(a=>b[a[0]]||b[a[0]+"c"]).map(a=>{const o=coreOf(b,a[0]);if(o.c)cnt[o.c]++;
+    return '<div class="ar">'+asvg(a[0])+'<span class="al">'+a[1]+'</span><span class="cv">'+(o.c?coreSvg(o.c):"")+'<span>'+esc(o.t||"—")+'</span></span></div>'}).join("");
+  if(!r)return "";
+  const sum=["r","b","y"].filter(c=>cnt[c]).map(c=>'<span>'+coreSvg(c)+CORES[c][0]+' ядро: '+CORES[c][1].toLowerCase()+' ×'+cnt[c]+'</span>').join("");
+  return '<div class="armor">'+(sum?'<div class="cs"><b>Нужные ядра:</b>'+sum+'</div>':"")+r+'</div>';
+};
+const gearRow=b=>{
+  const w=(b.weap+' '+b.name);
+  return WT.filter(t=>t[2].test(w)).map(t=>'<span class="em g">'+wsvg(t[0])+'<small>'+t[1]+'</small></span>').join('')+armRow(b);
+};
+$('armorf').innerHTML=AS.map(a=>'<label for="f-'+a[0]+'" class="al2">'+asvg(a[0])+a[1]+'</label><div class="cr"><input id="f-'+a[0]+'" placeholder="Название и атрибуты"><select id="f-'+a[0]+'c" aria-label="Ядро: '+a[1]+'"><option value="">Без ядра</option><option value="r">Красное</option><option value="b">Синее</option><option value="y">Жёлтое</option></select></div>').join('');
+$('wbtns').innerHTML=WT.map(t=>'<button type="button" class="sb" data-v="'+t[1]+'">'+wsvg(t[0])+t[1]+'</button>').join('');
+const addTo=(box,field)=>{$(box).onclick=e=>{
+  const b=e.target.closest('button');if(!b)return;
+  const f=$(field),v=b.dataset.v;
+  if(f.value.toLowerCase().includes(v.trim().toLowerCase()))return;
+  f.value=f.value+(f.value&&!f.value.endsWith('\n')?'\n':'')+v;f.focus();
+}};
+addTo('wbtns','f-weap');
+const dr=$('drawer'),sc=$('scrim');let tt;
+function openD(){dr.classList.add('open');sc.classList.add('open');setTimeout(()=>$('f-name').focus(),60)}
+function closeD(){dr.classList.remove('open');sc.classList.remove('open')}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
+$('newb').onclick=()=>{clearForm();openD()};$('cl').onclick=closeD;sc.onclick=closeD;
+$('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;$('fs').value=b.dataset.s;render()};
+const SEED=[
+{name:"Красный Striker: St. Elmo’s, Overdogs, Equalizer",role:"Урон",mode:"PvE",sets:"Striker",weap:"St. Elmo’s Engine\nGR9 или MK46 с Damage to Armor и Frenzy",mask:"Striker, красное ядро, крит. шанс или крит. урон",chest:"Equalizer, красное ядро, крит. шанс и крит. урон",pack:"Striker, красное ядро, крит. шанс или крит. урон",gloves:"Overdogs",holster:"Striker, красное ядро, крит. шанс или крит. урон",knees:"Striker, красное ядро, крит. шанс или крит. урон",tal:"Специализация: Gunner. Моды: крит. шанс и крит. урон. Навыки: Crusader Ballistic Shield, Decoy, Pulse, Reviver Hive. Цель: 60% крит. шанса, дальше крит. урон.",note:"Универсальный вариант для легенд, Escalation, вторжений и рейдов. Нужны непрерывные попадания, чтобы набрать стаки Striker.",ver:"Y8S3",status:"ok"},
+{name:"Tipping Scales: LMG с Tinkerer",role:"Урон",mode:"PvE",sets:"Tipping Scales",weap:"GR9 или MK46 с Damage to Armor и Frenzy\nGR9 или MK46 с Damage to Armor и Fast Hands",mask:"Tinkerer",chest:"Tipping Scales, красное ядро, крит. шанс или крит. урон",pack:"Tipping Scales, красное ядро, крит. шанс или крит. урон",gloves:"Contractor’s Gloves, красное ядро, крит. шанс или крит. урон",holster:"Tipping Scales, красное ядро, крит. шанс или крит. урон",knees:"Tipping Scales, красное ядро, крит. шанс или крит. урон",tal:"Специализация: Gunner. Моды: крит. шанс и крит. урон. Навыки: Defender Drone, Decoy, Pulse, Reviver Hive. Цель: 60% крит. шанса.",note:"Затяжной урон из LMG на критах.",ver:"Y8S3",status:"ok"},
+{name:"Refactor Force Multiplier: турель и дрон",role:"Навыки",mode:"PvE",sets:"Refactor",weap:"Capacitor (штурмовая винтовка)\nВинтовка или SMG с In Sync",mask:"Refactor, красное ядро, Skill Damage",chest:"Wyvern или Hana-U, жёлтое ядро, Skill Damage, Skill Haste, Glass Cannon или Kinetic Momentum",pack:"Force Multiplier, жёлтое ядро, Skill Damage и Skill Haste",gloves:"Refactor, жёлтое ядро, Skill Damage",holster:"Refactor, жёлтое ядро, Skill Damage",knees:"Refactor, жёлтое ядро, Skill Damage",tal:"Специализация: Technician (красное ядро даёт урон оружием при сохранении 6 уровней навыков). Моды: Skill Haste. Навыки: Striker Drone, Assault Turret.",note:"Безопасный вариант для сложных легендарных миссий.",ver:"Y8S3",status:"ok"},
+{name:"Future Initiative: лекарь с BTSU",role:"Лечение",mode:"Рейд",sets:"Future Initiative",weap:"Scorpio\nLefty",mask:"Future Initiative, жёлтое ядро, Repair Skills",chest:"Future Initiative, жёлтое ядро, Repair Skills",pack:"Alps, жёлтое ядро, Repair Skills, Skill Haste и Opportunistic",gloves:"BTSU Datagloves",holster:"Future Initiative, жёлтое ядро, Repair Skills",knees:"Future Initiative, жёлтое ядро, Repair Skills",tal:"Специализация: Survivalist. Моды: Repair Skills. Навыки: Reinforcer Chem Launcher, Restorer Hive.",note:"Основной лекарь для вторжений и рейдов.",ver:"Y8S3",status:"ok"},
+{name:"Protection From Elites: танк",role:"Танк",mode:"Рейд",sets:"Gila, Belstone, Improvised, Emperor’s Guard",weap:"Любое оружие, 2 слота\nQuickstep (3-й слот)",mask:"Gila, синее ядро, Armor Regen и Hazard Protection",chest:"Provocator",pack:"Belstone, синее ядро, Armor Regen, Hazard Protection и Adrenaline Rush",gloves:"Improvised Gloves, синее ядро, Armor Regen и Hazard Protection",holster:"Improvised Holster, синее ядро, Armor Regen и Hazard Protection",knees:"Emperor’s Guard, синее ядро",tal:"Специализация: Survivalist. Моды: Protection from Elites. Навыки: Reviver Hive, Decoy.",note:"Танк для вторжений.",ver:"Y8S3",status:"ok"},
+{name:"Iron Will Hotshot: снайпер с одного выстрела",role:"Урон",mode:"PvE",sets:"Hotshot",weap:"Prima Donna\nЛюбое оружие",mask:"Hotshot, красное ядро, Headshot Damage",chest:"Iron Will",pack:"Airaldi, красное ядро, Headshot Damage, Weapon Handling и Vigilance",gloves:"Hotshot, красное ядро, Headshot Damage",holster:"Hotshot, красное ядро, Headshot Damage",knees:"Hotshot, красное ядро, Headshot Damage",tal:"Специализация: Sharpshooter. Моды: Headshot Damage. Навыки: Decoy, Defender Drone, Reviver Hive.",note:"Сезонный билд Red Horizon. После правок Determined проверьте роллы.",ver:"Y8S3",status:"ok"},
+{name:"System Corruption: PvP со St. Elmo’s",role:"Урон",mode:"PvP",sets:"System Corruption",weap:"St. Elmo’s Engine\nЛюбое оружие",mask:"Catharsis",chest:"Ceska или Grupo, красное ядро, крит. шанс, крит. урон и Unbreakable",pack:"System Corruption, синее ядро, крит. шанс или крит. урон",gloves:"System Corruption, синее ядро, крит. шанс или крит. урон",holster:"System Corruption, синее ядро, крит. шанс или крит. урон",knees:"System Corruption, синее ядро, крит. шанс или крит. урон",tal:"Специализация: Firewall. Моды: крит. шанс и крит. урон. Навыки: Decoy, Shock Trap, Reviver Hive, Ballistic Shield. Цель: не менее 50% крит. шанса.",note:"PvP-баланс менялся в Y8S3.1, перепроверяйте перед игрой.",ver:"Y8S3",status:"ok"}
+];
+SEED.forEach(b=>AS.forEach(a=>{const o=coreOf(b,a[0]);b[a[0]]=o.t;b[a[0]+'c']=o.c}));
+if(S.seedv!==3){
+  S.builds=S.builds.filter(b=>!String(b.id).startsWith("seed"));
+  SEED.forEach((b,i)=>S.builds.push(Object.assign({id:"seed"+i,checked:"2026-10-07"},b)));
+  S.seedv=3;if(!S.ver)S.ver="Y8S3";save();$("curver").value=S.ver;
+}
+const setSync=on=>{$('sync').textContent=on?'Общий режим: билды видят все, кому открыт доступ к странице':'Локальный режим: билды хранятся только на этом устройстве'};
+setSync(false);
+(async()=>{
+  try{
+    if(!(window.claude&&window.claude.use))return;
+    const db=await claude.use('db');if(!db)return;
+    DB=db;setSync(true);
+    try{const u=await claude.use('user');if(u&&u.can&&(await u.can('data.write'))===false)document.body.classList.add('ro')}catch(e){}
+    db.collection('builds').onSnapshot(sn=>{S.builds=sn.docs.map(d=>Object.assign({},d.data(),{id:d.id}));render()},()=>toast('Синхронизация недоступна'));
+    db.doc('meta/config').onSnapshot(d=>{if(d.exists){S.ver=(d.data()||{}).ver||'';if(document.activeElement!==$('curver'))$('curver').value=S.ver;render()}},()=>{});
+  }catch(e){}
+})();
+const idSort=(a,b)=>a.id<b.id?-1:a.id>b.id?1:0;
+function mergeState(list){
+  const m=new Map(),t=new Map();let ver={v:'',u:0};
+  list.forEach(st=>{
+    if(!st)return;
+    (st.builds||[]).forEach(b=>{if(!b||!b.id)return;const o=m.get(b.id);if(!o||(b.u||0)>(o.u||0))m.set(b.id,b)});
+    (st.tomb||[]).forEach(x=>{if(!x||!x.id)return;const o=t.get(x.id);if(!o||x.u>o.u)t.set(x.id,x)});
+    if(st.ver&&st.ver.u>ver.u)ver={v:st.ver.v,u:st.ver.u};
+  });
+  t.forEach((x,id)=>{const b=m.get(id);if(b&&(b.u||0)<=x.u)m.delete(id)});
+  return{builds:[...m.values()].sort(idSort),tomb:[...t.values()].sort(idSort),ver};
+}
+let lastW='';
+const sy=t=>{$('sync').textContent=t};
+function syncSoon(){if(FS&&fsOn){clearTimeout(sst);sst=setTimeout(syncNow,400)}}
+async function syncNow(){
+  if(!FS||!fsOn)return;
+  try{
+    const others=await FS.read();
+    const cur={builds:S.builds,tomb:S.tomb||[],ver:{v:S.ver,u:S.vu||0}};
+    const m=mergeState([cur].concat(others));
+    const mine=JSON.stringify(mergeState([cur]));
+    const next=JSON.stringify(m);
+    if(next!==mine){
+      S.builds=m.builds;S.tomb=m.tomb;
+      if(m.ver.u>(S.vu||0)){S.ver=m.ver.v;S.vu=m.ver.u;if(document.activeElement!==$('curver'))$('curver').value=S.ver}
+      try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
+      render();
+    }
+    if(next!==lastW){await FS.write(m);lastW=next}
+    const c=await FS.getConfig();
+    sy('Синхронизация через папку: '+c.folder+' (обновлено '+new Date().toTimeString().slice(0,5)+', участников: '+(others.length+1)+')');
+  }catch(e){sy('Папка синхронизации недоступна. Проверьте, что она существует, и выберите её заново.')}
+}
+(async()=>{
+  if(!FS)return;
+  $('fsb').hidden=false;
+  $('fsb').onclick=async()=>{const f=await FS.chooseFolder();if(f){fsOn=true;lastW='';syncNow()}};
+  try{
+    const c=await FS.getConfig();
+    FS.onChange(()=>syncNow());
+    setInterval(syncNow,20000);
+    if(c.folder){fsOn=true;syncNow()}else sy('Папка синхронизации не выбрана: билды хранятся только на этом компьютере. Нажмите «Папка синхронизации».');
+  }catch(e){}
+})();
+
+const UP=window.d2upd||null;let upNew=null;
+async function upCheck(manual){
+  const r=await UP.check();
+  if(!r.ok){if(manual)$('ust').textContent=r.error==='no_url'?'Укажите адрес обновлений.':'Не удалось проверить обновления: '+r.error+'.';return}
+  $('uapp').hidden=!r.available;
+  if(r.available){
+    upNew=r;$('upb').textContent='Обновить до v'+r.version;$('upb').classList.add('pri');
+    if(manual)$('ust').textContent='Доступна версия '+r.version+(r.notes?': '+r.notes:'')+'.';else toast('Доступно обновление v'+r.version);
+  }else{
+    upNew=null;$('upb').textContent='Обновления';$('upb').classList.remove('pri');
+    if(manual)$('ust').textContent='У вас последняя версия ('+r.current+').';
+  }
+}
+async function doUpdate(){
+  if(!upNew)return;
+  $('upb').disabled=true;$('upb').textContent='Обновление…';$('updm').classList.remove('on');
+  let r;try{r=await UP.apply(JSON.stringify(S))}catch(e){r={ok:false,error:'ошибка'}}
+  if(!r.ok){$('upb').disabled=false;$('upb').textContent='Обновить до v'+upNew.version;toast('Не удалось обновить: '+r.error)}
+}
+(async()=>{
+  if(!UP)return;
+  $('upb').hidden=false;$('ups').hidden=false;
+  try{const i=await UP.info();$('uv').textContent='Версия приложения: '+i.version;$('uurl').value=i.url||''}catch(e){}
+  const open=()=>{$('ust').textContent='';$('updm').classList.add('on')};
+  $('upb').onclick=()=>upNew?doUpdate():(open(),$('uurl').value?upCheck(true):0);
+  $('ups').onclick=open;$('ucl').onclick=()=>$('updm').classList.remove('on');
+  $('uapp').onclick=doUpdate;
+  $('usave').onclick=async()=>{const r=await UP.setUrl($('uurl').value);if(!r.ok){$('ust').textContent=r.error;return}$('uurl').value=r.url;upCheck(true)};
+  setTimeout(()=>upCheck(false),3000);setInterval(()=>upCheck(false),6*3600*1000);
+})();
+clearForm();render();
+</script>
+</body>
+</html>
