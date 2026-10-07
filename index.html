@@ -6,110 +6,121 @@
 <title>Билды The Division 2</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#e8ebee;--panel:#f6f7f8;--ink:#18212b;--mute:#566371;--line:#c3cad1;--acc:#d9500a;--accink:#fff;--ok:#1e7a46;--warn:#92650a;--bad:#a8322d;
+:root{--bg:#0b0b0d;--panel:#141416;--panel2:#1b1b1f;--ink:#f3f3f4;--mute:#9b9ba3;--line:#2b2b30;--acc:#e3b93c;--accink:#16120a;--ok:#4cc27f;--warn:#e0b341;--bad:#ef7b74;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11161c;--panel:#1a2129;--ink:#e6eaee;--mute:#93a0ad;--line:#2d3743;--acc:#ff7a2e;--accink:#1a0e05;--ok:#4cc27f;--warn:#e0b341;--bad:#ef7b74}}
-:root[data-theme="dark"]{--bg:#11161c;--panel:#1a2129;--ink:#e6eaee;--mute:#93a0ad;--line:#2d3743;--acc:#ff7a2e;--accink:#1a0e05;--ok:#4cc27f;--warn:#e0b341;--bad:#ef7b74}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]):not([data-theme="light"]){--bg:#eef0f2;--panel:#fff;--panel2:#f3f4f6;--ink:#16181c;--mute:#5d6672;--line:#d0d5db;--acc:#a97c00;--accink:#fff;--ok:#1e7a46;--warn:#92650a;--bad:#a8322d}}
+:root[data-theme="light"]{--bg:#eef0f2;--panel:#fff;--panel2:#f3f4f6;--ink:#16181c;--mute:#5d6672;--line:#d0d5db;--acc:#a97c00;--accink:#fff;--ok:#1e7a46;--warn:#92650a;--bad:#a8322d}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
 h1,h2,h3{font-family:"IBM Plex Sans Condensed","Arial Narrow",sans-serif;margin:0;font-weight:700}
-.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 40px}
-header{display:flex;flex-wrap:wrap;gap:16px;align-items:end;justify-content:space-between;border-bottom:3px solid var(--acc);padding-bottom:14px;margin-bottom:20px}
-h1{font-size:34px;line-height:1.1}
-.ver{display:flex;gap:8px;align-items:center;color:var(--mute)}
-.ver input{width:130px}
-main{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
-@media(max-width:820px){main{grid-template-columns:1fr}}
-.panel{background:var(--panel);border:1px solid var(--line);padding:16px}
-.panel h2{font-size:20px;margin-bottom:12px}
-label{display:block;font-size:13px;color:var(--mute);margin:10px 0 3px}
-input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:7px 9px;border-radius:2px}
-textarea{resize:vertical;min-height:60px}
-:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-button{font:500 14px "IBM Plex Sans",sans-serif;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);padding:7px 12px;border-radius:2px}
-button:hover{border-color:var(--ink)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+button{font:600 14px "IBM Plex Sans",sans-serif;cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--ink);padding:8px 14px;border-radius:8px}
+button:hover{border-color:var(--mute)}button:disabled{opacity:.45;cursor:default}
 button.pri{background:var(--acc);border-color:var(--acc);color:var(--accink)}
-.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.tools{display:grid;grid-template-columns:1fr 150px 150px;gap:10px;margin-bottom:14px}
-@media(max-width:560px){.tools{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--line);padding:14px 16px;margin-bottom:12px}
-.card.s-ok{border-left-color:var(--ok)}.card.s-test{border-left-color:var(--warn)}.card.s-old{border-left-color:var(--bad);opacity:.8}
-.top{display:flex;justify-content:space-between;gap:10px;align-items:start;flex-wrap:wrap}
-.card h3{font-size:21px}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
-.tag{font-size:12px;border:1px solid var(--line);padding:1px 7px;color:var(--mute)}
-.st{font-weight:500;font-size:13px;padding:2px 9px;border:1px solid currentColor}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--line);padding:9px 11px;border-radius:8px}
+textarea{resize:vertical;min-height:60px}
+label{display:block;font-size:13px;font-weight:600;margin:16px 0 6px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--panel);border-bottom:1px solid var(--line)}
+.topin{max-width:1500px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{display:flex;gap:10px;align-items:center}.logo{width:38px;height:38px;flex:none}
+.brand b{display:block;font:700 20px/1.1 "IBM Plex Sans Condensed",sans-serif}.brand b span{color:var(--acc)}.brand small{color:var(--mute);font-size:12px}
+.ver{display:flex;gap:8px;align-items:center;font-size:13px}.ver label{margin:0;font-weight:500;color:var(--mute)}.ver input{width:96px;padding:6px 9px}
+.tr{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;max-width:1500px;margin:0 auto;padding:24px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr;padding:16px}.side{position:static!important;max-height:none!important}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.panel h2{font-size:20px;margin-bottom:6px}
+.side{position:sticky;top:84px;max-height:calc(100vh - 100px);overflow:auto}
+.sh{display:flex;justify-content:space-between;align-items:center}.lnk{background:none;border:0;color:var(--mute);padding:0;font-weight:500}.lnk:hover{color:var(--ink)}
+.sl{max-height:240px;overflow:auto;margin-top:8px;display:grid;gap:2px}
+.ck{display:flex;align-items:center;gap:8px;padding:5px 4px;margin:0;font-weight:500;cursor:pointer}.ck input{width:auto}.cm svg{width:20px;height:20px;display:block}
+.stat{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);color:var(--mute);font-size:13px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap}.tabs button{padding:10px 18px;border-radius:10px;background:var(--panel)}
+.tabs button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--accink)}.tabs b{opacity:.65;font-weight:600;margin-left:6px}
+.sbar{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 16px;margin:18px 0}
+.sbar svg{width:20px;height:20px;flex:none;color:var(--mute)}.sbar input{border:0;background:transparent;font-size:16px;padding:16px 4px}.sbar input:focus-visible{outline:0}
+.ph{font-size:34px;margin:28px 0 4px}.ph span{color:var(--acc)}
+#showing{color:var(--mute);margin-bottom:20px}#showing b{color:var(--ink)}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.card:hover{border-color:var(--mute)}.card.s-old{opacity:.8}
+.shot{position:relative;aspect-ratio:16/10;background:#0a0a0c;overflow:hidden}.shot>img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.art{width:100%;height:100%;display:grid;place-items:center;position:relative;background:radial-gradient(ellipse at 50% 40%,#26262c,#0a0a0c 72%)}
+.art .wm{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 12px;font:800 clamp(30px,5vw,58px)/1.05 "IBM Plex Sans Condensed",sans-serif;letter-spacing:.1em;color:#fff;opacity:.06}
+.art svg.w{position:relative;width:78%;height:auto;color:var(--acc)}
+.badge,.shot .st{position:absolute;top:12px;background:rgba(0,0,0,.66);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700}
+.badge{right:12px;color:#fff}.shot .st{left:12px;border:0}
 .st.ok{color:var(--ok)}.st.test{color:var(--warn)}.st.old{color:var(--bad)}
-dl{margin:10px 0 0;display:grid;grid-template-columns:110px 1fr;gap:4px 12px}
-dt{color:var(--mute)}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
-.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);align-items:center}
-.foot small{color:var(--mute)}.flag{color:var(--warn)}
-.foot div{display:flex;gap:6px}
-.empty{padding:30px 16px;text-align:center;color:var(--mute);border:1px dashed var(--line)}
-#io{display:none;margin-top:14px}#io textarea{min-height:140px;font-family:ui-monospace,monospace;font-size:12px}
-@media(prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
-.sets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.sb{display:flex;align-items:center;gap:6px;padding:3px 8px 3px 4px;font-size:13px}
-.sb svg,.em svg{width:22px;height:22px;display:block}
-.em{display:inline-flex;gap:5px;align-items:center;margin:10px 12px 0 0;font-size:13px;color:var(--mute)}
-.pics{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.pics .p{position:relative}
-.pics img{width:96px;height:64px;object-fit:cover;border:1px solid var(--line);display:block;cursor:zoom-in}
-.pics .x{position:absolute;top:2px;right:2px;padding:0 6px;background:var(--panel)}
+.cb{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.cb h3{font-size:21px;line-height:1.2}.by{color:var(--mute);font-size:14px}.by i{font-style:normal;opacity:.5;margin:0 5px}
+.code{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.cd{min-width:0}.cd small{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--mute)}
+.cd span{display:block;font:13px ui-monospace,Consolas,monospace;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp{padding:7px 9px;display:grid;place-items:center}
+.m4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mc{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 4px;font-size:12px;color:var(--mute);min-height:38px;flex-direction:column}
+.mc.r{flex-direction:row}.mc b{color:var(--ink);font-size:13px}.mc small{font-size:10px;font-weight:700;letter-spacing:.05em}.mc .core{width:18px;height:18px}
+details{border-top:1px solid var(--line);padding-top:8px}summary{cursor:pointer;color:var(--mute);font-size:13px}
+dl{margin:10px 0 0;display:grid;grid-template-columns:110px 1fr;gap:4px 12px}dt{color:var(--mute)}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.foot{margin-top:auto;border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.foot small{color:var(--mute)}.flag{color:var(--warn)}.ac{display:flex;gap:6px;flex-wrap:wrap}.ac button{padding:5px 10px;font-size:13px}
+.empty{grid-column:1/-1;padding:40px 16px;text-align:center;color:var(--mute);border:1px dashed var(--line);border-radius:14px}
+.pg{display:flex;gap:14px;align-items:center;justify-content:center;margin:26px 0;color:var(--mute)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 svg.w{width:66px;height:22px;fill:currentColor}svg.w .m{fill-opacity:.55}svg.w .d{fill:none;stroke:var(--panel);stroke-width:1}svg.w .s{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
 svg.a{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}svg.a .f{fill:currentColor;fill-opacity:.16}
-.em.g{color:var(--ink)}.em.g small{color:var(--mute);font-size:13px}
-.sb svg.w{width:51px;height:17px}.sb svg.a{width:24px;height:24px}
-#zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
-#zoom img{max-width:100%;max-height:100%}
-main{display:block}
-.hd{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;flex:none}
-.hr{display:flex;gap:16px;align-items:end;flex-wrap:wrap}
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--line)}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.tabs button{display:flex;gap:8px;align-items:center}
-.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.tabs b{font-weight:500;opacity:.7}
-.tools{grid-template-columns:1fr 170px 170px;margin:0}
-@media(max-width:560px){.tools{grid-template-columns:1fr}}
-#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px;padding-top:14px}
-#list .card{margin:0;display:flex;flex-direction:column}
-#list .card .foot{margin-top:auto}
-.card:hover{border-top-color:var(--mute);border-right-color:var(--mute);border-bottom-color:var(--mute)}
-details{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
-summary{cursor:pointer;color:var(--mute);font-size:13px}
-details dl{margin-top:8px}
-#drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);z-index:20;overflow:auto;border-width:0 0 0 1px;transform:translateX(100%);visibility:hidden;transition:transform .2s,visibility .2s;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
-#drawer.open{transform:none;visibility:visible}
-#scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:19;display:none}#scrim.open{display:block}
-.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.dh button{padding:2px 11px;font-size:20px;line-height:1.2}
-#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;z-index:30;opacity:0;pointer-events:none;transition:opacity .2s}#toast.on{opacity:1}
-@media(prefers-reduced-motion:reduce){#drawer,#toast{transition:none}}
+.sets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.sb{display:flex;align-items:center;gap:6px;padding:3px 8px 3px 4px;font-size:13px}
+.sb svg,.em svg{width:22px;height:22px;display:block}.sb svg.w{width:51px;height:17px}.sb svg.a{width:24px;height:24px}
+.em{display:inline-flex;gap:5px;align-items:center;margin:10px 12px 0 0;font-size:13px;color:var(--mute)}.em.g{color:var(--ink)}.em.g small{color:var(--mute);font-size:13px}
+svg.w.in{width:66px;height:22px}
 .armor{display:grid;gap:5px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
-.ar{display:grid;grid-template-columns:24px 92px 1fr;gap:8px;align-items:center;font-size:13.5px;line-height:1.35}
-.ar svg.a{width:24px;height:24px}.al{color:var(--mute)}
+.ar{display:grid;grid-template-columns:24px 92px 1fr;gap:8px;align-items:center;font-size:13.5px;line-height:1.35}.ar svg.a{width:24px;height:24px}.al{color:var(--mute)}
 .al2{display:flex;align-items:center;gap:6px}.al2 svg.a{width:20px;height:20px}
-.core{width:20px;height:20px;flex:none}
-.cv{display:flex;gap:7px;align-items:center}
-.cs{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;align-items:center;margin-bottom:4px}
-.cs b{font-weight:500;color:var(--mute)}.cs span{display:inline-flex;gap:6px;align-items:center}
+.core{width:20px;height:20px;flex:none}.cv{display:flex;gap:7px;align-items:center}
+.cs{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;align-items:center;margin-bottom:4px}.cs b{font-weight:500;color:var(--mute)}.cs span{display:inline-flex;gap:6px;align-items:center}
 .cr{display:grid;grid-template-columns:1fr 112px;gap:8px}
+.pics{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.pics .p{position:relative}
+.pics img{width:96px;height:64px;object-fit:cover;border:1px solid var(--line);border-radius:6px;display:block;cursor:zoom-in}
+.pics .x{position:absolute;top:2px;right:2px;padding:0 6px;background:var(--panel)}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);z-index:20;overflow:auto;border-radius:0;border-width:0 0 0 1px;transform:translateX(100%);visibility:hidden;transition:transform .2s,visibility .2s;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+#drawer.open{transform:none;visibility:visible}
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:19;display:none}#scrim.open{display:block}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.dh button{padding:2px 11px;font-size:20px;line-height:1.2}
+#io{display:none;margin-top:14px}#io textarea{min-height:140px;font-family:ui-monospace,monospace;font-size:12px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}#toast.on{opacity:1}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:40;padding:16px}.modal.on{display:flex}.modal .panel{max-width:480px;width:100%}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:16px;z-index:60}#zoom img{max-width:100%;max-height:100%}
 .ro #newb,.ro .card .foot div{display:none}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:40;padding:16px}
-.modal.on{display:flex}.modal .panel{max-width:480px;width:100%}
+@media(prefers-reduced-motion:reduce){#drawer,#toast{transition:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header>
-  <div class="hd"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" fill="var(--acc)"/><path d="M12 25l8-12 8 12M15.500 25h9" stroke="var(--accink)" stroke-width="2.500" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><h1>Билды The Division 2</h1><div id="count" style="color:var(--mute)"></div><div id="sync" style="color:var(--mute);font-size:13px"></div></div></div>
-  <div class="hr"><div class="ver"><label for="curver" style="margin:0">Текущее обновление</label><input id="curver" placeholder="например, Y8S3"></div><button id="thb" type="button">Тема: авто</button><button id="upb" type="button" hidden>Обновления</button><button id="ups" type="button" hidden aria-label="Настройки обновлений">⚙</button><button id="fsb" type="button" hidden>Папка синхронизации</button><button class="pri" id="newb" type="button">+ Новый билд</button></div>
-</header>
-<main>
-  <div id="scrim"></div>
-  <section class="panel" id="drawer" aria-labelledby="ft">
+<div class="top"><div class="topin">
+  <div class="brand"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" fill="var(--acc)"/><path d="M12 25l8-12 8 12M15.500 25h9" stroke="var(--accink)" stroke-width="2.500" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>D2 <span>Builder</span></b><small>База билдов The Division 2</small></div></div>
+  <div class="ver"><label for="curver">Текущее обновление</label><input id="curver" placeholder="Y8S3"></div>
+  <div class="tr"><button id="thb" type="button">Тема: авто</button><button id="upb" type="button" hidden>Обновления</button><button id="ups" type="button" hidden aria-label="Настройки обновлений">⚙</button><button id="fsb" type="button" hidden>Папка синхронизации</button><button class="pri" id="newb" type="button">+ Новый билд</button></div>
+</div></div>
+<div class="layout">
+  <aside class="panel side" aria-label="Фильтры">
+    <div class="sh"><h2>Фильтры</h2><button class="lnk" id="clr" type="button">Очистить всё</button></div>
+    <label for="fr">Роль</label><select id="fr"><option value="">Все роли</option><option>Урон</option><option>Танк</option><option>Лечение</option><option>Навыки</option><option>Гибрид</option></select>
+    <label for="fm">Режим</label><select id="fm"><option value="">Все режимы</option><option>PvE</option><option>PvP</option><option>Рейд</option><option>Любой</option></select>
+    <label for="fw">Тип оружия</label><select id="fw"></select>
+    <label id="slh" for="sq">Сеты</label><input id="sq" placeholder="Найти сет…"><div class="sl" id="sl"></div>
+    <label for="so">Сортировка</label><select id="so"><option value="st">Сначала актуальные</option><option value="nm">По названию</option><option value="dt">Свежие проверки сверху</option></select>
+    <div class="stat"><div id="count"></div><div id="sync" style="margin-top:6px"></div></div>
+  </aside>
+  <section class="content" aria-label="Список билдов">
+    <div class="tabs" id="tabs"><button type="button" data-s="">Все <b>0</b></button><button type="button" data-s="ok">Актуальные <b>0</b></button><button type="button" data-s="test">Тестирую <b>0</b></button><button type="button" data-s="old">Устаревшие <b>0</b></button></div>
+    <select id="fs" hidden><option value=""></option><option value="ok"></option><option value="test"></option><option value="old"></option></select>
+    <div class="sbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" placeholder="Поиск билдов: название, оружие, сеты…" aria-label="Поиск"></div>
+    <h2 class="ph">Все <span>билды</span></h2><div id="showing"></div>
+    <div id="list"></div><div class="pg" id="pg"></div>
+  </section>
+</div>
+<div id="scrim"></div>
+<section class="panel" id="drawer" aria-labelledby="ft">
     <div class="dh"><h2 id="ft" style="margin:0">Новый билд</h2><button type="button" id="cl" aria-label="Закрыть">×</button></div>
     <label for="f-name">Название</label><input id="f-name">
     <div class="row">
@@ -133,17 +144,6 @@ details dl{margin-top:8px}
     <div class="actions"><button id="exp">Экспорт</button><button id="imp">Импорт</button></div>
     <div id="io"><textarea id="iotext" aria-label="JSON с билдами"></textarea><div class="actions"><button class="pri" id="ioapply">Загрузить из текста</button></div></div>
   </section>
-  <section aria-label="Список билдов">
-    <div class="bar">
-      <div class="tabs" id="tabs"><button type="button" data-s="">Все <b>0</b></button><button type="button" data-s="ok">Актуальные <b>0</b></button><button type="button" data-s="test">Тестирую <b>0</b></button><button type="button" data-s="old">Устаревшие <b>0</b></button></div>
-      <select id="fs" hidden><option value=""></option><option value="ok"></option><option value="test"></option><option value="old"></option></select>
-      <div class="tools"><input id="q" placeholder="Поиск по названию, оружию, сетам" aria-label="Поиск">
-      <select id="so" aria-label="Сортировка"><option value="st">Сначала актуальные</option><option value="nm">По названию</option><option value="dt">Свежие проверки сверху</option></select><select id="fr" aria-label="Роль"><option value="">Все роли</option><option>Урон</option><option>Танк</option><option>Лечение</option><option>Навыки</option><option>Гибрид</option></select></div>
-    </div>
-    <div id="list"></div>
-  </section>
-</main>
-</div>
 <div class="modal" id="updm"><div class="panel" role="dialog" aria-labelledby="ut"><h2 id="ut">Обновления</h2><div id="uv" style="color:var(--mute)"></div>
 <label for="uurl">Адрес обновлений (https)</label><input id="uurl" placeholder="https://raw.githubusercontent.com/пользователь/репозиторий/main/">
 <div class="actions"><button class="pri" id="usave" type="button">Сохранить и проверить</button><button class="pri" id="uapp" type="button" hidden>Обновить</button><button id="ucl" type="button">Закрыть</button></div>
@@ -172,23 +172,50 @@ function clearForm(){
   F.forEach(k=>{const e=$('f-'+k);e.value=e.tagName==='SELECT'?e.options[0].value:''});
   $('f-ver').value=S.ver;editId=null;pics=[];renderFP();$('msg').textContent='';$('ft').textContent='Новый билд';$('save').textContent='Сохранить билд';
 }
+const PS=9;let page=1;const selSets=new Set();
+const COPYSVG='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>';
+const wkey=b=>{const w=(b.weap||'')+' '+(b.name||'');const t=WT.find(t=>t[2].test(w));return t?t[0]:''};
+const fmtD=d=>{const m=String(d||'').match(/^(\d{4})-(\d\d)-(\d\d)/);return m?m[3]+'.'+m[2]:'—'};
+function buildText(b){
+  const L=[(b.name||'Билд')+' ('+b.role+', '+b.mode+(b.ver?', '+b.ver:'')+')'];
+  if(b.sets)L.push('Сеты: '+b.sets);if(b.weap)L.push('Оружие: '+String(b.weap).replace(/\n/g,'; '));
+  AS.forEach(a=>{const o=coreOf(b,a[0]);if(o.t||o.c)L.push(a[1]+': '+(o.t||'—')+(o.c?' ['+CORES[o.c][0]+' ядро]':''))});
+  if(b.tal)L.push(b.tal);if(b.note)L.push('Заметки: '+b.note);
+  return L.join('\n');
+}
+function fbCopy(t){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove()}
+function copyText(t){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).catch(()=>fbCopy(t));else fbCopy(t)}
+function cardHtml(b){
+  const stale=S.ver&&b.ver!==S.ver&&b.status!=='old';
+  const s0=SETS.find(s=>norm(b.sets).includes(norm(s[0])));
+  const wm=(s0?s0[0]:String(b.sets||'').split(',')[0]).trim().toUpperCase();
+  const shot=(b.pics&&b.pics[0])?'<img src="'+b.pics[0]+'" data-z="1" alt="Скриншот билда">':'<div class="art"><span class="wm">'+esc(wm)+'</span>'+wsvg(wkey(b)||'ar')+'</div>';
+  const cnt={r:0,b:0,y:0};AS.forEach(a=>{const o=coreOf(b,a[0]);if(o.c)cnt[o.c]++});
+  const four=['r','b','y'].map(c=>'<div class="mc r" title="'+CORES[c][0]+' ядро: '+CORES[c][1].toLowerCase()+'">'+coreSvg(c)+'<b>×'+cnt[c]+'</b></div>').join('')+'<div class="mc"><small>ПРОВЕРЕН</small><b>'+fmtD(b.checked)+'</b></div>';
+  const row=(t,v)=>v?'<dt>'+t+'</dt><dd>'+esc(v)+'</dd>':'';
+  return '<article class="card s-'+b.status+'"><div class="shot">'+shot+'<span class="st '+b.status+'">'+ST[b.status]+'</span><span class="badge">'+esc(b.ver||'—')+'</span></div>'+
+  '<div class="cb"><h3>'+esc(b.name||'Без названия')+'</h3><div class="by">'+esc(b.role)+'<i>•</i>'+esc(b.mode)+'</div>'+
+  '<div class="code"><div class="cd"><small>СОСТАВ</small><span>'+esc(b.sets||'—')+'</span></div><button class="cp" type="button" data-a="cp" data-id="'+b.id+'" aria-label="Скопировать состав билда" title="Скопировать состав">'+COPYSVG+'</button></div>'+
+  '<div class="m4">'+four+'</div>'+
+  '<details><summary>Состав и заметки</summary>'+emRow(b)+gearRow(b)+'<dl>'+row('Бренды и сеты',b.sets)+row('Оружие',b.weap)+row('Специализация, моды, навыки',b.tal)+row('Заметки',b.note)+'</dl>'+picRow(b)+'</details>'+
+  '<div class="foot"><small>Проверен для '+esc(b.ver||'—')+', '+esc(b.checked)+(stale?' <span class="flag">Вышло новое обновление, перепроверьте билд</span>':'')+'</small>'+
+  '<div class="ac"><button data-a="chk" data-id="'+b.id+'">Подтвердить</button><button data-a="edit" data-id="'+b.id+'">Изменить</button><button data-a="dup" data-id="'+b.id+'">Копия</button><button data-a="del" data-id="'+b.id+'">Удалить</button></div></div></div></article>';
+}
 function render(){
-  const q=$('q').value.trim().toLowerCase(),fs=$('fs').value,fr=$('fr').value;
+  const q=$('q').value.trim().toLowerCase(),fs=$('fs').value,fr=$('fr').value,fm=$('fm').value,fw=$('fw').value;
   const cnt={'':S.builds.length,ok:0,test:0,old:0};S.builds.forEach(b=>{if(b.status in cnt)cnt[b.status]++});
   document.querySelectorAll('#tabs button').forEach(t=>{t.querySelector('b').textContent=cnt[t.dataset.s];t.setAttribute('aria-pressed',String(t.dataset.s===fs))});
-  const rank={ok:0,test:1,old:2};
-  const items=S.builds.filter(b=>(!fs||b.status===fs)&&(!fr||b.role===fr)&&(!q||[b.name,b.sets,b.weap,b.tal,b.note].join(' ').toLowerCase().includes(q)))
+  const rank={ok:0,test:1,old:2},sel=[...selSets];
+  let items=S.builds.filter(b=>(!fs||b.status===fs)&&(!fr||b.role===fr)&&(!fm||b.mode===fm)&&(!fw||wkey(b)===fw)&&(!sel.length||sel.some(n=>norm(b.sets).includes(norm(n))))&&(!q||[b.name,b.sets,b.weap,b.tal,b.note,b.mask,b.chest,b.pack,b.gloves,b.holster,b.knees].join(' ').toLowerCase().includes(q)))
     .sort(sortFn(rank));
-  $('count').textContent='Всего билдов: '+S.builds.length+', актуальных: '+S.builds.filter(b=>b.status==='ok').length;
-  if(!items.length){$('list').innerHTML='<div class="empty">'+(S.builds.length?'Ничего не найдено. Сбросьте фильтры.':'Билдов пока нет. Нажмите «Новый билд», чтобы добавить первый.')+'</div>';return}
-  $('list').innerHTML=items.map(b=>{
-    const stale=S.ver&&b.ver!==S.ver&&b.status!=='old';
-    const row=(t,v)=>v?'<dt>'+t+'</dt><dd>'+esc(v)+'</dd>':'';
-    return '<article class="card s-'+b.status+'"><div class="top"><div><h3>'+esc(b.name||'Без названия')+'</h3><div class="tags"><span class="tag">'+esc(b.role)+'</span><span class="tag">'+esc(b.mode)+'</span></div></div><span class="st '+b.status+'">'+ST[b.status]+'</span></div>'+
-    emRow(b)+gearRow(b)+'<details><summary>Состав и заметки</summary><dl>'+row('Бренды и сеты',b.sets)+row('Оружие',b.weap)+row('Специализация, моды, навыки',b.tal)+row('Заметки',b.note)+'</dl></details>'+picRow(b)+
-    '<div class="foot"><small>Проверен для '+esc(b.ver||'—')+', '+esc(b.checked)+(stale?' <span class="flag">Вышло новое обновление, перепроверьте билд</span>':'')+'</small>'+
-    '<div><button data-a="chk" data-id="'+b.id+'">Подтвердить</button><button data-a="edit" data-id="'+b.id+'">Изменить</button><button data-a="dup" data-id="'+b.id+'">Копия</button><button data-a="del" data-id="'+b.id+'">Удалить</button></div></div></article>';
-  }).join('');
+  const total=items.length,pages=Math.max(1,Math.ceil(total/PS));if(page>pages)page=pages;
+  const from=(page-1)*PS;items=items.slice(from,from+PS);
+  $('count').textContent='Всего билдов: '+S.builds.length+', актуальных: '+cnt.ok;
+  $('slh').textContent='Сеты'+(selSets.size?' (выбрано: '+selSets.size+')':'');
+  $('showing').innerHTML=total?'Показано <b>'+(from+1)+'–'+(from+items.length)+'</b> из <b>'+total+'</b> билдов':'';
+  $('pg').innerHTML=pages>1?'<button data-p="'+(page-1)+'"'+(page<2?' disabled':'')+'>‹ Назад</button><span>'+page+' / '+pages+'</span><button data-p="'+(page+1)+'"'+(page>=pages?' disabled':'')+'>Вперёд ›</button>':'';
+  if(!total){$('list').innerHTML='<div class="empty">'+(S.builds.length?'Ничего не найдено. Нажмите «Очистить всё».':'Билдов пока нет. Нажмите «Новый билд», чтобы добавить первый.')+'</div>';return}
+  $('list').innerHTML=items.map(cardHtml).join('');
 }
 $('save').onclick=()=>{
   const o={};F.forEach(k=>o[k]=$('f-'+k).value.trim());o.pics=pics.slice();o.u=Date.now();
@@ -206,13 +233,14 @@ $('list').onclick=e=>{
   const t=e.target.closest('button');if(!t)return;
   const b=S.builds.find(x=>x.id===t.dataset.id);if(!b)return;
   if(t.dataset.a==='chk'){b.ver=S.ver||b.ver;b.checked=today();if(b.status==='old')b.status='ok';b.u=Date.now();save();dbPut(b);render();toast('Актуальность подтверждена')}
+  if(t.dataset.a==='cp'){copyText(buildText(b));toast('Состав билда скопирован')}
   if(t.dataset.a==='dup'){const c=JSON.parse(JSON.stringify(b));c.id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);c.name=(b.name||'Билд')+' (копия)';c.checked=today();c.u=Date.now();S.builds.push(c);save();dbPut(c);render();toast('Копия создана')}
   if(t.dataset.a==='del'){if(t.dataset.sure){S.builds=S.builds.filter(x=>x!==b);(S.tomb=S.tomb||[]).push({id:b.id,u:Date.now()});save();dbDel(b.id);render()}else{t.textContent='Точно удалить?';t.dataset.sure='1'}}
   if(t.dataset.a==='edit'){F.forEach(k=>$('f-'+k).value=b[k]||'');editId=b.id;pics=(b.pics||[]).slice();renderFP();$('ft').textContent='Изменение билда';$('save').textContent='Сохранить изменения';openD()}
 };
 $('curver').value=S.ver;
 $('curver').oninput=e=>{S.ver=e.target.value.trim();S.vu=Date.now();save();render();clearTimeout(window._vt);window._vt=setTimeout(()=>{if(DB)DB.doc('meta/config').set({ver:S.ver}).catch(dbErr)},600)};
-['q','fs','fr','so'].forEach(id=>$(id).addEventListener('input',render));
+['q','fr','fm','fw','so'].forEach(id=>$(id).addEventListener('input',()=>{page=1;render()}));
 $('exp').onclick=()=>{$('io').style.display='block';$('iotext').value=JSON.stringify(S,null,1);$('iotext').select()};
 $('imp').onclick=()=>{$('io').style.display='block';$('iotext').value='';$('iotext').placeholder='Вставьте сюда JSON из экспорта';$('iotext').focus()};
 $('ioapply').onclick=()=>{
@@ -315,7 +343,7 @@ function openD(){dr.classList.add('open');sc.classList.add('open');setTimeout(()
 function closeD(){dr.classList.remove('open');sc.classList.remove('open')}
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
 $('newb').onclick=()=>{clearForm();openD()};$('cl').onclick=closeD;sc.onclick=closeD;
-$('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;$('fs').value=b.dataset.s;render()};
+$('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;$('fs').value=b.dataset.s;page=1;render()};
 const SEED=[
 {name:"Красный Striker: St. Elmo’s, Overdogs, Equalizer",role:"Урон",mode:"PvE",sets:"Striker",weap:"St. Elmo’s Engine\nGR9 или MK46 с Damage to Armor и Frenzy",mask:"Striker, красное ядро, крит. шанс или крит. урон",chest:"Equalizer, красное ядро, крит. шанс и крит. урон",pack:"Striker, красное ядро, крит. шанс или крит. урон",gloves:"Overdogs",holster:"Striker, красное ядро, крит. шанс или крит. урон",knees:"Striker, красное ядро, крит. шанс или крит. урон",tal:"Специализация: Gunner. Моды: крит. шанс и крит. урон. Навыки: Crusader Ballistic Shield, Decoy, Pulse, Reviver Hive. Цель: 60% крит. шанса, дальше крит. урон.",note:"Универсальный вариант для легенд, Escalation, вторжений и рейдов. Нужны непрерывные попадания, чтобы набрать стаки Striker.",ver:"Y8S3",status:"ok"},
 {name:"Tipping Scales: LMG с Tinkerer",role:"Урон",mode:"PvE",sets:"Tipping Scales",weap:"GR9 или MK46 с Damage to Armor и Frenzy\nGR9 или MK46 с Damage to Armor и Fast Hands",mask:"Tinkerer",chest:"Tipping Scales, красное ядро, крит. шанс или крит. урон",pack:"Tipping Scales, красное ядро, крит. шанс или крит. урон",gloves:"Contractor’s Gloves, красное ядро, крит. шанс или крит. урон",holster:"Tipping Scales, красное ядро, крит. шанс или крит. урон",knees:"Tipping Scales, красное ядро, крит. шанс или крит. урон",tal:"Специализация: Gunner. Моды: крит. шанс и крит. урон. Навыки: Defender Drone, Decoy, Pulse, Reviver Hive. Цель: 60% крит. шанса.",note:"Затяжной урон из LMG на критах.",ver:"Y8S3",status:"ok"},
@@ -422,11 +450,22 @@ async function doUpdate(){
 
 function sortFn(rank){const v=$('so').value;return v==='nm'?(a,b)=>String(a.name).localeCompare(String(b.name),'ru'):v==='dt'?(a,b)=>String(b.checked).localeCompare(String(a.checked)):(a,b)=>rank[a.status]-rank[b.status]||String(b.checked).localeCompare(String(a.checked))}
 const TH=['auto','light','dark'],THL={auto:'Тема: авто',light:'Тема: светлая',dark:'Тема: тёмная'},hostTh=document.documentElement.getAttribute('data-theme');
-let th='auto';try{th=localStorage.getItem('d2theme')||'auto'}catch(e){}
+let th='dark';try{th=localStorage.getItem('d2theme')||'dark'}catch(e){}
 if(!TH.includes(th))th='auto';
 const applyTh=()=>{const r=document.documentElement,v=th==='auto'?hostTh:th;if(v)r.setAttribute('data-theme',v);else r.removeAttribute('data-theme');$('thb').textContent=THL[th]};
 $('thb').onclick=()=>{th=TH[(TH.indexOf(th)+1)%3];try{localStorage.setItem('d2theme',th)}catch(e){}applyTh()};
 applyTh();
+
+$('fw').innerHTML='<option value="">Любое оружие</option>'+WT.map(t=>'<option value="'+t[0]+'">'+t[1]+'</option>').join('');
+function buildSl(){
+  const q=$('sq').value.trim().toLowerCase();
+  $('sl').innerHTML=SETS.filter(s=>!q||s[0].toLowerCase().includes(q)).map(s=>'<label class="ck"><input type="checkbox" value="'+esc(s[0])+'"'+(selSets.has(s[0])?' checked':'')+'><span class="cm">'+emb(s[0],s[2])+'</span>'+esc(s[0])+'</label>').join('');
+}
+$('sq').oninput=buildSl;
+$('sl').onchange=e=>{const c=e.target;if(c.type!=='checkbox')return;if(c.checked)selSets.add(c.value);else selSets.delete(c.value);page=1;render()};
+$('clr').onclick=()=>{['q','fr','fm','fw','sq'].forEach(id=>$(id).value='');$('so').value='st';$('fs').value='';selSets.clear();page=1;buildSl();render()};
+$('pg').onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;page=+b.dataset.p;render();window.scrollTo({top:0})};
+buildSl();
 clearForm();render();
 </script>
 </body>
