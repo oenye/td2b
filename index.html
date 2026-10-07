@@ -72,7 +72,7 @@ main{display:block}
 .tabs button{display:flex;gap:8px;align-items:center}
 .tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .tabs b{font-weight:500;opacity:.7}
-.tools{grid-template-columns:1fr 170px;margin:0}
+.tools{grid-template-columns:1fr 170px 170px;margin:0}
 @media(max-width:560px){.tools{grid-template-columns:1fr}}
 #list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px;padding-top:14px}
 #list .card{margin:0;display:flex;flex-direction:column}
@@ -105,7 +105,7 @@ details dl{margin-top:8px}
 <div class="wrap">
 <header>
   <div class="hd"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" fill="var(--acc)"/><path d="M12 25l8-12 8 12M15.500 25h9" stroke="var(--accink)" stroke-width="2.500" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><h1>Билды The Division 2</h1><div id="count" style="color:var(--mute)"></div><div id="sync" style="color:var(--mute);font-size:13px"></div></div></div>
-  <div class="hr"><div class="ver"><label for="curver" style="margin:0">Текущее обновление</label><input id="curver" placeholder="например, Y8S3"></div><button id="upb" type="button" hidden>Обновления</button><button id="ups" type="button" hidden aria-label="Настройки обновлений">⚙</button><button id="fsb" type="button" hidden>Папка синхронизации</button><button class="pri" id="newb" type="button">+ Новый билд</button></div>
+  <div class="hr"><div class="ver"><label for="curver" style="margin:0">Текущее обновление</label><input id="curver" placeholder="например, Y8S3"></div><button id="thb" type="button">Тема: авто</button><button id="upb" type="button" hidden>Обновления</button><button id="ups" type="button" hidden aria-label="Настройки обновлений">⚙</button><button id="fsb" type="button" hidden>Папка синхронизации</button><button class="pri" id="newb" type="button">+ Новый билд</button></div>
 </header>
 <main>
   <div id="scrim"></div>
@@ -138,7 +138,7 @@ details dl{margin-top:8px}
       <div class="tabs" id="tabs"><button type="button" data-s="">Все <b>0</b></button><button type="button" data-s="ok">Актуальные <b>0</b></button><button type="button" data-s="test">Тестирую <b>0</b></button><button type="button" data-s="old">Устаревшие <b>0</b></button></div>
       <select id="fs" hidden><option value=""></option><option value="ok"></option><option value="test"></option><option value="old"></option></select>
       <div class="tools"><input id="q" placeholder="Поиск по названию, оружию, сетам" aria-label="Поиск">
-      <select id="fr" aria-label="Роль"><option value="">Все роли</option><option>Урон</option><option>Танк</option><option>Лечение</option><option>Навыки</option><option>Гибрид</option></select></div>
+      <select id="so" aria-label="Сортировка"><option value="st">Сначала актуальные</option><option value="nm">По названию</option><option value="dt">Свежие проверки сверху</option></select><select id="fr" aria-label="Роль"><option value="">Все роли</option><option>Урон</option><option>Танк</option><option>Лечение</option><option>Навыки</option><option>Гибрид</option></select></div>
     </div>
     <div id="list"></div>
   </section>
@@ -178,7 +178,7 @@ function render(){
   document.querySelectorAll('#tabs button').forEach(t=>{t.querySelector('b').textContent=cnt[t.dataset.s];t.setAttribute('aria-pressed',String(t.dataset.s===fs))});
   const rank={ok:0,test:1,old:2};
   const items=S.builds.filter(b=>(!fs||b.status===fs)&&(!fr||b.role===fr)&&(!q||[b.name,b.sets,b.weap,b.tal,b.note].join(' ').toLowerCase().includes(q)))
-    .sort((a,b)=>rank[a.status]-rank[b.status]||String(b.checked).localeCompare(String(a.checked)));
+    .sort(sortFn(rank));
   $('count').textContent='Всего билдов: '+S.builds.length+', актуальных: '+S.builds.filter(b=>b.status==='ok').length;
   if(!items.length){$('list').innerHTML='<div class="empty">'+(S.builds.length?'Ничего не найдено. Сбросьте фильтры.':'Билдов пока нет. Нажмите «Новый билд», чтобы добавить первый.')+'</div>';return}
   $('list').innerHTML=items.map(b=>{
@@ -187,7 +187,7 @@ function render(){
     return '<article class="card s-'+b.status+'"><div class="top"><div><h3>'+esc(b.name||'Без названия')+'</h3><div class="tags"><span class="tag">'+esc(b.role)+'</span><span class="tag">'+esc(b.mode)+'</span></div></div><span class="st '+b.status+'">'+ST[b.status]+'</span></div>'+
     emRow(b)+gearRow(b)+'<details><summary>Состав и заметки</summary><dl>'+row('Бренды и сеты',b.sets)+row('Оружие',b.weap)+row('Специализация, моды, навыки',b.tal)+row('Заметки',b.note)+'</dl></details>'+picRow(b)+
     '<div class="foot"><small>Проверен для '+esc(b.ver||'—')+', '+esc(b.checked)+(stale?' <span class="flag">Вышло новое обновление, перепроверьте билд</span>':'')+'</small>'+
-    '<div><button data-a="chk" data-id="'+b.id+'">Подтвердить</button><button data-a="edit" data-id="'+b.id+'">Изменить</button><button data-a="del" data-id="'+b.id+'">Удалить</button></div></div></article>';
+    '<div><button data-a="chk" data-id="'+b.id+'">Подтвердить</button><button data-a="edit" data-id="'+b.id+'">Изменить</button><button data-a="dup" data-id="'+b.id+'">Копия</button><button data-a="del" data-id="'+b.id+'">Удалить</button></div></div></article>';
   }).join('');
 }
 $('save').onclick=()=>{
@@ -206,12 +206,13 @@ $('list').onclick=e=>{
   const t=e.target.closest('button');if(!t)return;
   const b=S.builds.find(x=>x.id===t.dataset.id);if(!b)return;
   if(t.dataset.a==='chk'){b.ver=S.ver||b.ver;b.checked=today();if(b.status==='old')b.status='ok';b.u=Date.now();save();dbPut(b);render();toast('Актуальность подтверждена')}
+  if(t.dataset.a==='dup'){const c=JSON.parse(JSON.stringify(b));c.id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);c.name=(b.name||'Билд')+' (копия)';c.checked=today();c.u=Date.now();S.builds.push(c);save();dbPut(c);render();toast('Копия создана')}
   if(t.dataset.a==='del'){if(t.dataset.sure){S.builds=S.builds.filter(x=>x!==b);(S.tomb=S.tomb||[]).push({id:b.id,u:Date.now()});save();dbDel(b.id);render()}else{t.textContent='Точно удалить?';t.dataset.sure='1'}}
   if(t.dataset.a==='edit'){F.forEach(k=>$('f-'+k).value=b[k]||'');editId=b.id;pics=(b.pics||[]).slice();renderFP();$('ft').textContent='Изменение билда';$('save').textContent='Сохранить изменения';openD()}
 };
 $('curver').value=S.ver;
 $('curver').oninput=e=>{S.ver=e.target.value.trim();S.vu=Date.now();save();render();clearTimeout(window._vt);window._vt=setTimeout(()=>{if(DB)DB.doc('meta/config').set({ver:S.ver}).catch(dbErr)},600)};
-['q','fs','fr'].forEach(id=>$(id).addEventListener('input',render));
+['q','fs','fr','so'].forEach(id=>$(id).addEventListener('input',render));
 $('exp').onclick=()=>{$('io').style.display='block';$('iotext').value=JSON.stringify(S,null,1);$('iotext').select()};
 $('imp').onclick=()=>{$('io').style.display='block';$('iotext').value='';$('iotext').placeholder='Вставьте сюда JSON из экспорта';$('iotext').focus()};
 $('ioapply').onclick=()=>{
@@ -418,6 +419,14 @@ async function doUpdate(){
   $('usave').onclick=async()=>{const r=await UP.setUrl($('uurl').value);if(!r.ok){$('ust').textContent=r.error;return}$('uurl').value=r.url;upCheck(true)};
   setTimeout(()=>upCheck(false),3000);setInterval(()=>upCheck(false),6*3600*1000);
 })();
+
+function sortFn(rank){const v=$('so').value;return v==='nm'?(a,b)=>String(a.name).localeCompare(String(b.name),'ru'):v==='dt'?(a,b)=>String(b.checked).localeCompare(String(a.checked)):(a,b)=>rank[a.status]-rank[b.status]||String(b.checked).localeCompare(String(a.checked))}
+const TH=['auto','light','dark'],THL={auto:'Тема: авто',light:'Тема: светлая',dark:'Тема: тёмная'},hostTh=document.documentElement.getAttribute('data-theme');
+let th='auto';try{th=localStorage.getItem('d2theme')||'auto'}catch(e){}
+if(!TH.includes(th))th='auto';
+const applyTh=()=>{const r=document.documentElement,v=th==='auto'?hostTh:th;if(v)r.setAttribute('data-theme',v);else r.removeAttribute('data-theme');$('thb').textContent=THL[th]};
+$('thb').onclick=()=>{th=TH[(TH.indexOf(th)+1)%3];try{localStorage.setItem('d2theme',th)}catch(e){}applyTh()};
+applyTh();
 clearForm();render();
 </script>
 </body>
