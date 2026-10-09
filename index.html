@@ -134,14 +134,15 @@ svg.w.in{width:66px;height:22px}
     <div id="armorf"></div>
     <label for="f-tal">Специализация, моды, навыки</label><textarea id="f-tal"></textarea>
     <label for="f-note">Заметки</label><textarea id="f-note"></textarea>
-    <label for="f-pics">Скриншоты экипировки</label><input id="f-pics" type="file" accept="image/*" multiple>
+    <label for="f-pics">Скриншоты экипировки <span style="font-weight:400;color:var(--mute)">(или Ctrl+V из буфера)</span></label><input id="f-pics" type="file" accept="image/*" multiple>
     <div class="pics" id="fp"></div><div id="msg" role="status" style="color:var(--bad);font-size:13px;margin-top:6px"></div>
     <div class="row">
       <div><label for="f-ver">Проверен для</label><input id="f-ver" placeholder="Y8S3"></div>
       <div><label for="f-status">Статус</label><select id="f-status"><option value="ok">Актуален</option><option value="test">Тестирую</option><option value="old">Устарел</option></select></div>
     </div>
     <div class="actions"><button class="pri" id="save">Сохранить билд</button><button id="reset">Очистить</button></div>
-    <div class="actions"><button id="exp">Экспорт</button><button id="imp">Импорт</button></div>
+    <div class="actions"><button id="expf" type="button">Экспорт в файл</button><button id="impf" type="button">Импорт из файла</button><input id="impfile" type="file" accept=".json,application/json" hidden></div>
+    <div class="actions"><button id="exp" type="button">Экспорт текстом</button><button id="imp" type="button">Импорт текстом</button></div>
     <div id="io"><textarea id="iotext" aria-label="JSON с билдами"></textarea><div class="actions"><button class="pri" id="ioapply">Загрузить из текста</button></div></div>
   </section>
 <div class="modal" id="updm"><div class="panel" role="dialog" aria-labelledby="ut"><h2 id="ut">Обновления</h2><div id="uv" style="color:var(--mute)"></div>
@@ -163,6 +164,7 @@ const dbErr=e=>toast(e&&e.code==='invalid_argument'?'Нет прав на изм
 const dbPut=b=>{if(DB)DB.doc('builds/'+b.id).set(JSON.parse(JSON.stringify(b))).catch(dbErr)};
 const dbDel=id=>{if(DB)DB.doc('builds/'+id).delete().catch(dbErr)};
 const today=()=>new Date().toISOString().slice(0,10);
+const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ST={ok:'Актуален',test:'Тестирую',old:'Устарел'};
 const F=['name','role','mode','sets','weap','mask','maskc','chest','chestc','pack','packc','gloves','glovesc','holster','holsterc','knees','kneesc','tal','note','ver','status'];
@@ -199,7 +201,7 @@ function cardHtml(b){
   '<div class="m4">'+four+'</div>'+
   '<details><summary>Состав и заметки</summary>'+emRow(b)+gearRow(b)+'<dl>'+row('Бренды и сеты',b.sets)+row('Оружие',b.weap)+row('Специализация, моды, навыки',b.tal)+row('Заметки',b.note)+'</dl>'+picRow(b)+'</details>'+
   '<div class="foot"><small>Проверен для '+esc(b.ver||'—')+', '+esc(b.checked)+(stale?' <span class="flag">Вышло новое обновление, перепроверьте билд</span>':'')+'</small>'+
-  '<div class="ac"><button data-a="chk" data-id="'+b.id+'">Подтвердить</button><button data-a="edit" data-id="'+b.id+'">Изменить</button><button data-a="dup" data-id="'+b.id+'">Копия</button><button data-a="del" data-id="'+b.id+'">Удалить</button></div></div></div></article>';
+  '<div class="ac"><button data-a="chk" data-id="'+b.id+'">Подтвердить</button><button data-a="edit" data-id="'+b.id+'">Изменить</button><button data-a="dup" data-id="'+b.id+'">Копия</button><button data-a="sh" data-id="'+b.id+'" title="Скопировать билд целиком, чтобы друг вставил его через «Импорт текстом»">Поделиться</button><button data-a="del" data-id="'+b.id+'">Удалить</button></div></div></div></article>';
 }
 function render(){
   const q=$('q').value.trim().toLowerCase(),fs=$('fs').value,fr=$('fr').value,fm=$('fm').value,fw=$('fw').value;
@@ -222,7 +224,7 @@ $('save').onclick=()=>{
   if(!o.name){$('f-name').focus();return}
   let nb;
   if(editId){const b=S.builds.find(x=>x.id===editId);Object.assign(b,o,{checked:today()});nb=b}
-  else{nb=Object.assign({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),checked:today()},o);S.builds.push(nb)}
+  else{nb=Object.assign({id:newId(),checked:today()},o);S.builds.push(nb)}
   if(!save()){$('msg').textContent='Не хватило места в браузере. Удалите часть фото и сохраните снова.';return}
   dbPut(nb);
   toast(editId?'Билд обновлён':'Билд сохранён');closeD();clearForm();render();
@@ -234,8 +236,9 @@ $('list').onclick=e=>{
   const b=S.builds.find(x=>x.id===t.dataset.id);if(!b)return;
   if(t.dataset.a==='chk'){b.ver=S.ver||b.ver;b.checked=today();if(b.status==='old')b.status='ok';b.u=Date.now();save();dbPut(b);render();toast('Актуальность подтверждена')}
   if(t.dataset.a==='cp'){copyText(buildText(b));toast('Состав билда скопирован')}
-  if(t.dataset.a==='dup'){const c=JSON.parse(JSON.stringify(b));c.id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);c.name=(b.name||'Билд')+' (копия)';c.checked=today();c.u=Date.now();S.builds.push(c);save();dbPut(c);render();toast('Копия создана')}
-  if(t.dataset.a==='del'){if(t.dataset.sure){S.builds=S.builds.filter(x=>x!==b);(S.tomb=S.tomb||[]).push({id:b.id,u:Date.now()});save();dbDel(b.id);render()}else{t.textContent='Точно удалить?';t.dataset.sure='1'}}
+  if(t.dataset.a==='sh'){copyText(JSON.stringify({builds:[b]}));toast('Билд скопирован. Друг вставляет его через «Импорт текстом»')}
+  if(t.dataset.a==='dup'){const c=JSON.parse(JSON.stringify(b));c.id=newId();c.name=(b.name||'Билд')+' (копия)';c.checked=today();c.u=Date.now();S.builds.push(c);save();dbPut(c);render();toast('Копия создана')}
+  if(t.dataset.a==='del'){if(t.dataset.sure){S.builds=S.builds.filter(x=>x!==b);(S.tomb=S.tomb||[]).push({id:b.id,u:Date.now()});save();dbDel(b.id);render()}else{t.textContent='Точно удалить?';t.dataset.sure='1';setTimeout(()=>{if(t.isConnected){t.textContent='Удалить';delete t.dataset.sure}},4000)}}
   if(t.dataset.a==='edit'){F.forEach(k=>$('f-'+k).value=b[k]||'');editId=b.id;pics=(b.pics||[]).slice();renderFP();$('ft').textContent='Изменение билда';$('save').textContent='Сохранить изменения';openD()}
 };
 $('curver').value=S.ver;
@@ -243,9 +246,31 @@ $('curver').oninput=e=>{S.ver=e.target.value.trim();S.vu=Date.now();save();rende
 ['q','fr','fm','fw','so'].forEach(id=>$(id).addEventListener('input',()=>{page=1;render()}));
 $('exp').onclick=()=>{$('io').style.display='block';$('iotext').value=JSON.stringify(S,null,1);$('iotext').select()};
 $('imp').onclick=()=>{$('io').style.display='block';$('iotext').value='';$('iotext').placeholder='Вставьте сюда JSON из экспорта';$('iotext').focus()};
+// Импорт добавляет билды к существующим (совпадающие по id заменяются), ничего не стирая.
+function importData(txt){
+  const d=JSON.parse(txt);if(!d||!Array.isArray(d.builds))throw 0;
+  const t=Date.now(),m=new Map(S.builds.map(b=>[b.id,b]));let n=0;
+  d.builds.forEach(b=>{if(!b||typeof b!=='object')return;if(!b.id)b.id=newId();if(!ST[b.status])b.status='ok';if(!b.checked)b.checked=today();b.u=t;m.set(b.id,b);n++});
+  S.builds=[...m.values()];
+  const ids=new Set(d.builds.map(b=>b&&b.id));if(S.tomb)S.tomb=S.tomb.filter(x=>!ids.has(x.id));
+  if(typeof d.ver==='string'&&d.ver&&!S.ver){S.ver=d.ver;S.vu=t}
+  save();if(DB){d.builds.forEach(b=>b&&b.id&&dbPut(b));if(S.ver)DB.doc('meta/config').set({ver:S.ver}).catch(dbErr)}
+  $('curver').value=S.ver;$('io').style.display='none';clearForm();page=1;render();toast('Загружено билдов: '+n);
+}
 $('ioapply').onclick=()=>{
-  try{const d=JSON.parse($('iotext').value);if(!d||!Array.isArray(d.builds))throw 0;if(FS&&fsOn){const t=Date.now(),m=new Map(S.builds.map(b=>[b.id,b]));d.builds.forEach(b=>{if(b&&b.id){b.u=t;m.set(b.id,b)}});S.builds=[...m.values()];if(d.ver){S.ver=d.ver;S.vu=t}}else S={ver:d.ver||'',builds:d.builds};save();if(DB){S.builds.forEach(b=>dbPut(b));if(S.ver)DB.doc('meta/config').set({ver:S.ver}).catch(dbErr)}$('curver').value=S.ver;$('io').style.display='none';clearForm();render()}
+  try{importData($('iotext').value)}
   catch(e){$('iotext').value='';$('iotext').placeholder='Не удалось прочитать JSON. Вставьте текст, полученный через «Экспорт».'}
+};
+$('expf').onclick=()=>{
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify({ver:S.ver,builds:S.builds},null,1)],{type:'application/json'}));
+  a.download='d2-builds-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),5000);toast('Файл с билдами сохранён');
+};
+$('impf').onclick=()=>$('impfile').click();
+$('impfile').onchange=e=>{
+  const f=e.target.files[0];e.target.value='';if(!f)return;
+  f.text().then(importData).catch(()=>toast('Не удалось прочитать файл. Нужен .json из «Экспорт в файл».'));
 };
 
 let pics=[];
@@ -262,7 +287,7 @@ $('fp').onclick=e=>{
   const i=e.target.dataset.i;if(i!==undefined){pics.splice(+i,1);renderFP()}
 };
 $('zoom').onclick=()=>{$('zoom').style.display='none'};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('zoom').style.display='none';closeD()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('zoom').style.display='none';$('updm').classList.remove('on');closeD()}});
 const shrink=f=>new Promise((res,rej)=>{
   const r=new FileReader();
   r.onerror=rej;
@@ -272,14 +297,22 @@ const shrink=f=>new Promise((res,rej)=>{
     c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.62))};i.src=r.result};
   r.readAsDataURL(f);
 });
-$('f-pics').onchange=async e=>{
+async function addPics(files){
   $('msg').textContent='';
-  for(const f of e.target.files){
+  for(const f of files){
     if(pics.length>=maxP()){$('msg').textContent='Не больше '+maxP()+' фото на билд.';break}
-    try{pics.push(await shrink(f))}catch(x){$('msg').textContent='Не удалось прочитать файл '+f.name+'.'}
+    try{pics.push(await shrink(f))}catch(x){$('msg').textContent='Не удалось прочитать файл '+(f.name||'')+'.'}
   }
-  e.target.value='';renderFP();
-};
+  renderFP();
+}
+$('f-pics').onchange=async e=>{await addPics([...e.target.files]);e.target.value=''};
+// Скриншот из буфера (Print Screen, Win+Shift+S) вставляется в открытую форму по Ctrl+V
+document.addEventListener('paste',e=>{
+  if(!dr.classList.contains('open'))return;
+  const imgs=[...(e.clipboardData&&e.clipboardData.files||[])].filter(f=>f.type.startsWith('image/'));
+  if(!imgs.length)return;
+  e.preventDefault();addPics(imgs).then(()=>toast('Скриншот добавлен'));
+});
 $('setbtns').innerHTML=SETS.map(s=>'<button type="button" class="sb" data-set="'+esc(s[0])+'" title="'+esc(s[1])+'">'+emb(s[0],s[2])+esc(s[0])+'</button>').join('');
 $('setbtns').onclick=e=>{
   const b=e.target.closest('button');if(!b)return;
@@ -295,7 +328,7 @@ smg:'<path class="m" d="M2 10h14v2H2zM2 16h14v2H2z"/><path d="M2 10h2v8H2z"/><pa
 shotgun:'<path d="M2 10h14l-1 10H5q-3 0-3-3z"/><path d="M16 10h22v9H16z"/><path class="m" d="M38 15h40v3H38z"/><path d="M38 11h48v3H38z"/><path class="m" d="M52 14h14v7H52z"/><path d="M86 10.5h6v4h-6z"/><path d="M22 19h5l-1 7h-4z"/><path d="M82 8h2v3h-2z"/><path class="d" d="M55 15v5M58 15v5M61 15v5M20 13h12"/><path class="s" d="M31 19v2q0 2-2 2h-2"/>',
 sniper:'<path d="M2 12h18v4l-6 4H4q-2 0-2-2z"/><path class="m" d="M5 9h10v3H5z"/><path d="M20 11h20v7H20z"/><path d="M40 13h44v3H40z"/><path d="M84 11.5h9v6h-9z"/><rect x="26" y="3" width="30" height="5" rx="2"/><path class="m" d="M56 2.5h5v6h-5zM22 3h4v2h-4zM30 8h3v3h-3zM46 8h3v3h-3zM28 18h7v6h-7z"/><path class="d" d="M86 11.5v6M89 11.5v6M30 14h8"/><path class="s" d="M62 16l-5 13M66 16l5 13M32 18l-4 5"/>',
 pistol:'<path d="M20 6h42v8H20z"/><path class="m" d="M20 14h38v4H20z"/><path d="M22 16h12l-5 14H17z"/><path d="M22 4h4v2h-4zM58 4h3v2h-3z"/><path class="m" d="M16 28h13v3H16z"/><path class="d" d="M24 7v6M27 7v6M30 7v6M34 7v6M38 7v6"/><path class="s" d="M38 18v4q0 2 3 2h4"/>'};
-const WT=[["ar","Штурмовая винтовка (AR)",/штурмов|assault|\bAR\b/i],["lmg","Пулемёт (LMG)",/\bLMG\b|пулем[её]т(?!.*пистолет)/i],["smg","Пистолет-пулемёт (SMG)",/\bSMG\b|пистолет-пулем/i],["shotgun","Дробовик",/shotgun|дробов/i],["sniper","Снайперская винтовка",/sniper|снайпер|марксман|marksman/i],["pistol","Пистолет",/pistol|пистолет(?!-)/i]];
+const WT=[["ar","Штурмовая винтовка (AR)",/штурмов|assault|\bAR\b|St\.? Elmo|Capacitor|Chameleon|Eagle Bearer/i],["lmg","Пулемёт (LMG)",/\bLMG\b|(?<!пистолет-)пулем[её]т|Pestilence|Bullet King/i],["smg","Пистолет-пулемёт (SMG)",/\bSMG\b|пистолет-пулем|Lady Death|Chatterbox/i],["shotgun","Дробовик",/shotgun|дробов|Scorpio|Sweet Dreams/i],["sniper","Снайперская винтовка",/sniper|снайпер|марксман|marksman|Nemesis/i],["pistol","Пистолет",/pistol|пистолет(?!-)|Liberty|Regulus/i]];
 const AI={
 mask:'<path class="f" d="M16 3c-6 0-10 4-10 10v6c0 4 3 7 6 9h8c3-2 6-5 6-9v-6c0-6-4-10-10-10z"/><path d="M8 12h16v5q0 2-2 2h-3l-1-2h-4l-1 2h-3q-2 0-2-2z"/><path d="M16 12v5M6 14H3M26 14h3M13 25h6M14 27.5h4"/>',
 chest:'<path class="f" d="M9 3 4 8v7l4 2v13h16V17l4-2V8l-5-5h-3c-1 2-2.500 3-5 3s-4-1-5-3z"/><path d="M11 11h10v9H11zM11 23h4v4h-4zM17 23h4v4h-4zM13 8h6"/>',
